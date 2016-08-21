@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Music_Society_Forum.Models.Post>
+    
+@using Music_Society_Forum.Classes;
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Posts</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Body)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Author)
+        </th>
+        <th>
+            Actions
+        </th>
+    </tr>
+
+@foreach (var post in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => post.Title)
+        </td>
+        <td>
+            @Utils.CutText(post.Body)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => post.Date)
+        </td>
+        <td>
+            @if (post.Author != null)
+            {
+                if (post.Author.FullName != null)
+                {
+                    @Html.DisplayFor(modelItem => post.Author.FullName)
+                    @:(@Html.DisplayFor(modelItem => post.Author.UserName))
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => post.Author.UserName)
+                }
+            }
+            else
+            {
+                <i>Undisclosed author</i>
+            }
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=post.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=post.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=post.Id })
+        </td>
+    </tr>
+}
+
+</table>

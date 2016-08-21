@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+@using Music_Society_Forum.Models;
+@using Music_Society_Forum.Classes;
+
+@model List<Post>
+
+<div class="jumbotron">
+    <h1>Music Reviews Forum</h1>    
+</div>
+
+<aside class="sidebar">
+    <h2 class="sidebar-title">
+        Recent Posts
+    </h2>
+    @foreach (var post in ViewBag.SidebarPosts)
+    {
+        <h4 class="sidebar-post">
+            @Html.ActionLink((string)@post.Title, "Details", "Posts", new { id = @post.Id }, null)
+        </h4>
+    }
+</aside>
+
+<section class="row">
+    @foreach (var post in Model)
+    {
+        <article class="post col-md-6">
+            <h2 class="title">
+                @Html.ActionLink((string)@post.Title, "Details", "Posts", new { id = @post.Id }, null)
+            </h2>
+            <div class="subtitle">
+                Posted on <i>@post.Date</i>
+                @if (post.Author != null)
+                {
+                    @:by
+                    if (post.Author.FullName != null)
+                    {
+                        <i>@post.Author.FullName (@post.Author.UserName)</i>
+                    }
+                    else
+                    {   <i>@post.Author.UserName</i>  }
+                }
+            </div>
+            <div>@Html.Raw(post.Body)</div>
+        </article>
+    }   
+    
+</section>
