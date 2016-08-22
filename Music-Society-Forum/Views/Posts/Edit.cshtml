@@ -44,6 +44,11 @@
         @* datetimepicker script *@
         <script>
             $(function () {
+                /*  Datetime picker worked correctly only in Firefox. 
+                    Chrome & Opera gave an error msg: 'The field [Date] must be a date.'
+                    Solved by removing the data validation attribute for [Date]
+                */
+                $('#Date').removeAttr("data-val-date");
                 $('#Date').datetimepicker({
                     format: 'DD/MM/YYYY HH:mm',
                     sideBySide: false,
