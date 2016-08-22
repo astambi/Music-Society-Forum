@@ -15,6 +15,24 @@ namespace Music_Society_Forum.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        public bool isAdmin()
+        {
+            bool isAdmin = User.Identity.IsAuthenticated && 
+                           User.IsInRole("Administrators");
+            return isAdmin;
+        }
+
+        public bool isPostOwner(Post post)
+        {
+            if (!User.Identity.IsAuthenticated || post.Author_Id == null)
+                return false; 
+            var currentUser = db.Users
+                            .Where(u => u.UserName == User.Identity.Name)
+                            .FirstOrDefault();
+            bool isPostOwner = post.Author_Id == currentUser.Id;
+            return isPostOwner;
+        }
+
         // GET: Posts
         public ActionResult Index()
         {
@@ -22,6 +40,7 @@ namespace Music_Society_Forum.Controllers
                                 .Include(p => p.Author)
                                 .OrderByDescending(p => p.Date)
                                 .ToList();
+            ViewBag.IsAdmin = isAdmin();
             return View(postsWithAuthors);
         }
 
@@ -41,6 +60,8 @@ namespace Music_Society_Forum.Controllers
                                 .Where(p => p.Id == id)
                                 .Select(u => u.Author)
                                 .FirstOrDefault();
+            ViewBag.IsAdmin = isAdmin();
+            ViewBag.IsOwner = isPostOwner(post);
             return View(post);
         }
 

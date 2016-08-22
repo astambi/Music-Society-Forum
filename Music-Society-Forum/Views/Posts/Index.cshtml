@@ -60,9 +60,20 @@
             }
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=post.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=post.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=post.Id })
+            @Html.ActionLink("Details", "Details", new { id = post.Id })
+
+            @*  Admins can edit and delete ALL Posts, 
+                post Owners can edit their own posts, but cannot delete them. *@
+            @if (ViewBag.IsAdmin)
+            {
+                @: | @Html.ActionLink("Edit", "Edit", new { id = post.Id })
+                @: | @Html.ActionLink("Delete", "Delete", new { id = post.Id })
+            }
+            else if (post.Author_Id != null && 
+                     post.Author.UserName == User.Identity.Name)
+            {
+                @: | @Html.ActionLink("Edit", "Edit", new { id = post.Id })
+            }
         </td>
     </tr>
 }

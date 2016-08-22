@@ -7,7 +7,6 @@
 <p>I am developing this project for my <a href="https://softuni.bg/trainings/1390/software-technologies-june-2016">Software Technologies - June 2016</a> course at the Software University.</p>
 
 <p>Steps completed so far:</p>
-
 <ul>
     <li>Created an ASP.NET MVC Web application</li>
     <li>Simplified the user registration and login</li>
@@ -16,11 +15,22 @@
     <li>Scaffolded CRUD oprations for the posts</li>
     <li>Enabled authomatic migrations of the database and added some seed to populate the db</li>
     <li>Implemented the listing of all posts on the home page with reference to the post details views</li>
-    <li>TODO a more decent sidebar</li>
     <li>Modified the posts index/ details views along with the corresponding controller actions</li>
     <li>Added author data to the posts index/ details views</li>
     <li>Modified the create post functionality: current date & time => post creation date, current user => post author</li>
-    <li>Modified the edit post funcitonality to allow for date modifications and swapping of users (from a dropdown list of users sorted alphabetically on full name + username)</li>
+    <li>Modified the edit post funcitonality to allow date modifications and swapping of users (from a dropdown list of registered users, sorted)</li>
     <li>Allowed html input in new & edited posts</li>
-    <li>TODO much more :)</li>
+    <li>Added date/time picker popup calendar in edit view (working as expecting only for Firefox)</li>
+    <li>Solved the date/time picker 'invalid date' error msgs in Chrome & Opera </li>
+    <li>Modified visibility of forbidden links: restricted visibility of create-links to authenticated users only</li>
+    <li>Modified visibility of forbidden links: restricted visibility of delete-links in all views to admins only</li>
+    <li>Modified visibility of forbidden links: restricted visibility of edit-links in all views to admins and post owners</li>
+
+
+</ul>
+
+<p>TODO:</p>
+<ul>
+    <li>a decent sidebar</li>
+    <li>everything else ;)</li>
 </ul>
