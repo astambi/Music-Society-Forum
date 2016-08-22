@@ -89,7 +89,6 @@ namespace Music_Society_Forum.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
             return View(post);
         }
 
@@ -107,10 +106,16 @@ namespace Music_Society_Forum.Controllers
                 return HttpNotFound();
             }
             var authors = db.Users
-                         .OrderBy(u => u.FullName)
-                         .ThenBy(u => u.UserName)
-                         .ToList();
+                        .OrderBy(u => u.FullName)
+                        .ThenBy(u => u.UserName)
+                        .ToList();
             ViewBag.Authors = authors;
+            ViewBag.PostAuthor = db.Posts
+                        .Where(p => p.Id == id)
+                        .Select(u => u.Author)
+                        .FirstOrDefault();
+            ViewBag.IsAdmin = isAdmin();
+            ViewBag.IsOwner = isPostOwner(post);
             return View(post);
         }
 

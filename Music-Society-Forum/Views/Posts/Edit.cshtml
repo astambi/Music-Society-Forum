@@ -60,19 +60,38 @@
             @Html.LabelFor(model => model.Author, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <select class="form-control" name="Author_Id">
-                    @foreach (var author in ViewBag.Authors)
+                    @*  Admins can modify all proprties in a post, including the post creator.
+                        Post Owners can edit only the content, title & date of a post, 
+                        but cannot transfer the post to another user. *@
+                    @if(ViewBag.IsAdmin)
                     {
-                        <option value="@author.Id">
-                            @if (author.FullName != null)
+                        foreach (var author in ViewBag.Authors)
+                        {
+                            <option value="@author.Id">
+                                @if (author.FullName != null)
+                                {
+                                    @author.FullName @:(@author.UserName)
+                                }
+                                else
+                                {
+                                    @author.UserName
+                                }
+                            </option>
+                        }
+                    }
+                    else if(ViewBag.IsOwner)
+                    {
+                        <option value="@ViewBag.PostAuthor.Id">
+                            @if (@ViewBag.PostAuthor.FullName != null)
                             {
-                                @author.FullName @:(@author.UserName)
+                                @ViewBag.PostAuthor.FullName @:(@ViewBag.PostAuthor.UserName)
                             }
                             else
                             {
-                                @author.UserName
+                                @ViewBag.PostAuthor.UserName
                             }
                         </option>
-                    }
+                    }                    
                 </select>
                 @Html.ValidationMessageFor(model => model.Author, "", new { @class = "text-danger" })
             </div>
