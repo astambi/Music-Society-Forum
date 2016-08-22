@@ -10,6 +10,7 @@ using Music_Society_Forum.Models;
 
 namespace Music_Society_Forum.Controllers
 {
+    [ValidateInput(false)]
     public class PostsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -36,7 +37,6 @@ namespace Music_Society_Forum.Controllers
             {
                 return HttpNotFound();
             }
-
             ViewBag.PostAuthor = db.Posts
                                 .Where(p => p.Id == id)
                                 .Select(u => u.Author)
@@ -57,10 +57,13 @@ namespace Music_Society_Forum.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Body,Date")] Post post)
+        public ActionResult Create([Bind(Include = "Id,Title,Body, Author_Id")] Post post)
         {
             if (ModelState.IsValid)
             {
+                post.Author = db.Users
+                            .Where(u => u.UserName == User.Identity.Name)
+                            .FirstOrDefault();
                 db.Posts.Add(post);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -82,6 +85,11 @@ namespace Music_Society_Forum.Controllers
             {
                 return HttpNotFound();
             }
+            var authors = db.Users
+                         .OrderBy(u => u.FullName)
+                         .ThenBy(u => u.UserName)
+                         .ToList();
+            ViewBag.Authors = authors;
             return View(post);
         }
 
@@ -91,19 +99,19 @@ namespace Music_Society_Forum.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Body,Date")] Post post)
+        public ActionResult Edit([Bind(Include = "Id,Title,Body,Date, Author_Id")] Post post)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(post).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
-            }
+            }            
             return View(post);
         }
 
         // GET: Posts/Delete/5
-        [Authorize]
+        [Authorize(Roles = "Administrators")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -115,12 +123,16 @@ namespace Music_Society_Forum.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.PostAuthor = db.Posts
+                                .Where(p => p.Id == id)
+                                .Select(u => u.Author)
+                                .FirstOrDefault();
             return View(post);
         }
 
         // POST: Posts/Delete/5
         [HttpPost, ActionName("Delete")]
-        [Authorize]
+        [Authorize(Roles = "Administrators")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
