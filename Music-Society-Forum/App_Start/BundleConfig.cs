@@ -26,6 +26,16 @@ namespace Music_Society_Forum
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            // Datetimepicker CSS & JS bundles
+            // js
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap-datetimepicker").Include(
+                      "~/Scripts/moment.js",
+                      "~/Scripts/bootstrap-datetimepicker.js"));
+            // css
+            bundles.Add(new StyleBundle("~/Content/bootstrap-datetimepicker").Include(
+                      "~/Content/bootstrap-datetimepicker.min.css"));
+
         }
     }
 }

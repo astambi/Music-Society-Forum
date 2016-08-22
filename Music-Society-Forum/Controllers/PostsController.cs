@@ -62,8 +62,8 @@ namespace Music_Society_Forum.Controllers
             if (ModelState.IsValid)
             {
                 post.Author = db.Users
-                            .Where(u => u.UserName == User.Identity.Name)
-                            .FirstOrDefault();
+                             .Where(u => u.UserName == User.Identity.Name)
+                             .FirstOrDefault();
                 db.Posts.Add(post);
                 db.SaveChanges();
                 return RedirectToAction("Index");

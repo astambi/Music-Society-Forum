@@ -7,7 +7,7 @@
 
 @model List<Post>
 
-<div class="jumbotron">
+@*<div class="jumbotron">
     <h1>Music Reviews Forum</h1>    
 </div>
 
@@ -21,7 +21,9 @@
             @Html.ActionLink((string)@post.Title, "Details", "Posts", new { id = @post.Id }, null)
         </h4>
     }
-</aside>
+</aside>*@
+
+@*TODO Styling*@
 
 <section class="row">
     @foreach (var post in Model)
@@ -45,6 +47,6 @@
             </div>
             <div>@Html.Raw(post.Body)</div>
         </article>
-    }   
+    }  
     
 </section>
