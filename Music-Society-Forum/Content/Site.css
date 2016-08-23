@@ -23,32 +23,37 @@ textarea {
     max-width: 280px;
 }
 
-.post>h2, .title {
+.post-title {
     background-color: #DDD;
+    text-decoration: none;
+    color: white;
     padding: 20px;
     margin-top: 20px;
     border-radius: 10px;
 }
-.subtitle {
+.post-subtitle {
     padding: 0px 0px 10px 20px;
 }
 
+.post-body {
+    text-align: justify;
+}
+
 .sidebar {
-    background: #eee;
-    margin: 0; 
-    padding-bottom: 10px;
+    background-color: whitesmoke; 
+    margin: 20px;   
+    padding: 20px;
     border-radius: 10px;
-    /*float: left;*/
 }
 
 .sidebar-title {
-    margin-top: 15px;
-    padding: 10px 20px 5px 20px;
+    padding-top: 0px;
 }
 
 .sidebar-post {
-    padding: 0px 20px 0px 20px;
+    padding: 0px;
     text-decoration: none;
+    color: white;
 }
 
 .alert {
