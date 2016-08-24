@@ -36,16 +36,16 @@
         }
     </article>
 
-    <aside class="sidebar col-md-3">
-        
-        <h2 class="sidebar-title">Recent Posts</h2>
+    <aside class="sidebar col-md-3"> 
+
+        <h2 class="sidebar-title">Recent Reviews</h2>
         @foreach (var post in ViewBag.SidebarPosts)
         {
             <h5 class="sidebar-post">
                 @Html.ActionLink((string)@post.Title, "Details", "Posts", new { id = @post.Id }, null)
             </h5>
         }
-        
+                
         <h2>Recommended recordings</h2>
         <div>
             <a href="https://play.spotify.com/album/0eJWOnvBlZDQOFkcYYukLW">
@@ -64,7 +64,7 @@
                 <img src="~/Content/images/stabatmater.jpg" />
                 Pergolesi & Scarlatti: Stabat Mater, Rinaldo Alessandrini, Sara Mingardo
             </a>
-        </div>
+        </div>        
 
         <h2 class="sidebar-title">Recommended Videos</h2>
         <iframe width="210" height="155" src="https://www.youtube.com/embed/FIQQv39dcNE" frameborder="0" allowfullscreen></iframe>

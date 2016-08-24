@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Music_Society_Forum.Models;
+using Music_Society_Forum.Extensions;
 
 namespace Music_Society_Forum.Controllers
 {
@@ -61,7 +62,7 @@ namespace Music_Society_Forum.Controllers
                                 .Select(u => u.Author)
                                 .FirstOrDefault();
             ViewBag.IsAdmin = isAdmin();
-            ViewBag.IsOwner = isPostOwner(post);
+            ViewBag.IsOwner = isPostOwner(post);           
             return View(post);
         }
 
@@ -99,6 +100,7 @@ namespace Music_Society_Forum.Controllers
                              .FirstOrDefault();
                 db.Posts.Add(post);
                 db.SaveChanges();
+                this.AddNotification("Review created", NotificationType.SUCCESS);
                 return RedirectToAction("My");
             }
             return View(post);
@@ -116,6 +118,11 @@ namespace Music_Society_Forum.Controllers
             if (post == null)
             {
                 return HttpNotFound();
+            }            
+            if (!isAdmin() && !isPostOwner(post))
+            {
+                this.AddNotification("Review created by another user", NotificationType.INFO);
+                return RedirectToAction("My");
             }
             var authors = db.Users
                         .OrderBy(u => u.FullName)
@@ -143,9 +150,9 @@ namespace Music_Society_Forum.Controllers
             {
                 db.Entry(post).State = EntityState.Modified;
                 db.SaveChanges();
+                this.AddNotification("Review modified", NotificationType.SUCCESS);
                 if (isAdmin())
                     return RedirectToAction("Index");
-
                 return RedirectToAction("My");
             }            
             return View(post);
@@ -163,7 +170,7 @@ namespace Music_Society_Forum.Controllers
             if (post == null)
             {
                 return HttpNotFound();
-            }
+            }            
             ViewBag.PostAuthor = db.Posts
                                 .Where(p => p.Id == id)
                                 .Select(u => u.Author)
@@ -180,6 +187,7 @@ namespace Music_Society_Forum.Controllers
             Post post = db.Posts.Find(id);
             db.Posts.Remove(post);
             db.SaveChanges();
+            this.AddNotification("Review deleted", NotificationType.SUCCESS);
             return RedirectToAction("Index");
         }
 
