@@ -65,6 +65,18 @@ namespace Music_Society_Forum.Controllers
             return View(post);
         }
 
+        // GET: Posts/My
+        [Authorize]
+        public ActionResult My()
+        {
+            var posts = db.Posts
+                        .Where(p => p.Author != null && p.Author.UserName == User.Identity.Name)
+                        .OrderByDescending(p => p.Date)
+                        .ToList();
+            ViewBag.IsAdmin = isAdmin();
+            return View(posts);
+        }
+
         // GET: Posts/Create
         [Authorize]
         public ActionResult Create()
@@ -87,7 +99,7 @@ namespace Music_Society_Forum.Controllers
                              .FirstOrDefault();
                 db.Posts.Add(post);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("My");
             }
             return View(post);
         }
@@ -131,7 +143,10 @@ namespace Music_Society_Forum.Controllers
             {
                 db.Entry(post).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                if (isAdmin())
+                    return RedirectToAction("Index");
+
+                return RedirectToAction("My");
             }            
             return View(post);
         }

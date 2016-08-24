@@ -9,9 +9,9 @@
 
 @*<div class="jumbotron"></div>*@
 
-<section class="row"> 
+<section class="row">     
 
-    <article class="post col-md-8 "> 
+    <article class="post col-md-8"> 
         @foreach (var post in Model)
         {
             <h2 class="post-title">
@@ -37,21 +37,14 @@
     </article>
 
     <aside class="sidebar col-md-3">
+        
         <h2 class="sidebar-title">Recent Posts</h2>
         @foreach (var post in ViewBag.SidebarPosts)
         {
-            <h4 class="sidebar-post">
+            <h5 class="sidebar-post">
                 @Html.ActionLink((string)@post.Title, "Details", "Posts", new { id = @post.Id }, null)
-            </h4>
+            </h5>
         }
-
-        <h2 class="sidebar-title">Recommended Videos</h2>
-        <iframe width="210" height="155" src="https://www.youtube.com/embed/aPAiH9XhTHc" frameborder="0" allowfullscreen></iframe>
-        <iframe width="210" height="155" src="https://www.youtube.com/embed/SQO7QIgNvA0" frameborder="0" allowfullscreen></iframe>
-        <iframe width="210" height="155" src="https://www.youtube.com/embed/dpVV9jShEzU" frameborder="0" allowfullscreen></iframe>
-        @*<iframe width="210" height="155" src="https://www.youtube.com/embed/Cnoz1YE4das" frameborder="0" allowfullscreen></iframe>*@
-        @*<iframe width="210" height="155" src="https://www.youtube.com/embed/88NQaoi7ZKc" frameborder="0" allowfullscreen></iframe>*@
-        @*<iframe width="210" height="155" src="https://www.youtube.com/embed/uX48QHVALmA" frameborder="0" allowfullscreen></iframe>*@
         
         <h2>Recommended recordings</h2>
         <div>
@@ -59,20 +52,26 @@
                 <img src="~/Content/images/missasolemnis.jpg" />
                 Beethoven: Missa Solemnis, Philippe Herreweghe
             </a>
-        </div>
-        <div>
-            <a href="https://play.spotify.com/album/18LnGj50WB5xEFeSaCbW8H">
-                <img src="~/Content/images/stabatmater.jpg" />
-                Pergolesi & Scarlatti: Stabat Mater, Rinaldo Alessandrini, Sara Mingardo
-            </a>
-        </div>
+        </div>        
         <div>
             <a href="https://play.spotify.com/album/3tDNolZfho9MTSRqwoBcFy">
                 <img src="~/Content/images/ring.jpg" />
                 Wagner: Der Ring des Nibelungen, Sir Georg Solti
             </a>
         </div> 
+        <div>
+            <a href="https://play.spotify.com/album/18LnGj50WB5xEFeSaCbW8H">
+                <img src="~/Content/images/stabatmater.jpg" />
+                Pergolesi & Scarlatti: Stabat Mater, Rinaldo Alessandrini, Sara Mingardo
+            </a>
+        </div>
 
+        <h2 class="sidebar-title">Recommended Videos</h2>
+        <iframe width="210" height="155" src="https://www.youtube.com/embed/FIQQv39dcNE" frameborder="0" allowfullscreen></iframe>
+        <iframe width="210" height="155" src="https://www.youtube.com/embed/SQO7QIgNvA0" frameborder="0" allowfullscreen></iframe>
+        <iframe width="210" height="155" src="https://www.youtube.com/embed/aPAiH9XhTHc" frameborder="0" allowfullscreen></iframe>
+        <iframe width="210" height="155" src="https://www.youtube.com/embed/dpVV9jShEzU" frameborder="0" allowfullscreen></iframe>
+        
     </aside>
     
 </section>

@@ -24,7 +24,7 @@ textarea {
 }
 
 .post-title {
-    background-color: #DDD;
+    background-color: #ddd;
     text-decoration: none;
     color: white;
     padding: 20px;
@@ -41,7 +41,7 @@ textarea {
 
 .sidebar {
     background-color: whitesmoke; 
-    margin: 20px;   
+    margin-top: 20px;
     padding: 20px;
     border-radius: 10px;
 }
