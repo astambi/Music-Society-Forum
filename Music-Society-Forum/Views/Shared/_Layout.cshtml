@@ -27,12 +27,13 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("All Reviews", "Index", "Posts")</li>
+                    <li>@Html.ActionLink("Reviews", "Index", "Posts")</li>
+                    <li>@Html.ActionLink("Comments", "Index", "Comments")</li>
 
                     @* Guest users do not see the new post view *@
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li>@Html.ActionLink("My Reviews", "My", "Posts")</li>
+                        <li>@Html.ActionLink("My Contribution", "My", "Posts")</li>
                         <li>@Html.ActionLink("New Review", "Create", "Posts")</li>
                     }
 

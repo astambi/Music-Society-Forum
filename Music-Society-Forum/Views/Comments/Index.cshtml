@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Music_Society_Forum.Models.Comment>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Comments</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Text)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Post)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Author)
+        </th>
+
+        <th>Actions</th>
+    </tr>
+
+@foreach (var comment in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => comment.Text)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => comment.Date)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => comment.Post.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => comment.Author.FullName)
+        </td>
+
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=comment.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=comment.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=comment.Id })
+        </td>
+    </tr>
+}
+
+</table>
