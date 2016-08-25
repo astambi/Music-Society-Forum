@@ -62,7 +62,13 @@ namespace Music_Society_Forum.Controllers
                                 .Select(u => u.Author)
                                 .FirstOrDefault();
             ViewBag.IsAdmin = isAdmin();
-            ViewBag.IsOwner = isPostOwner(post);           
+            ViewBag.IsOwner = isPostOwner(post);
+
+            ViewBag.Comments = db.Comments
+                            .Include(c => c.Author)
+                            .Where(c => c.Post.Id == id)
+                            .OrderByDescending(c => c.Date)
+                            .ToList();
             return View(post);
         }
 

@@ -49,8 +49,29 @@
             }
         </dd>
 
-    </dl>
-</div>
+    </dl>    
+
+    <h4>Comments (@ViewBag.Comments.Count)</h4>   
+
+    <p>
+        @Html.ActionLink("Add Comment", "Create", "Comments")
+    </p>  
+    @if (ViewBag.Comments.Count > 0)
+    {
+        <dl class="dl-horizontal">
+            @foreach (var comment in ViewBag.Comments)
+            {
+                <dt>@comment.Date</dt>
+                <dd>@comment.Text <br />
+                    <i>~ @comment.Author.FullName, @comment.Author.UserName</i>                    
+                </dd>
+            }           
+        </dl>
+    }    
+    <hr />
+
+</div>   
+
 <p>
     @Html.ActionLink("Back to List", "Index")
 
