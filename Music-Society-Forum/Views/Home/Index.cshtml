@@ -34,8 +34,8 @@
                     }
                 }
             </div>
-            <div class="post-body">@Html.Raw(post.Body)</div>
-            <div>@Html.ActionLink("See Details", "Details", "Posts", new { id = @post.Id }, null)</div>
+            <div class="post-body">@Html.Raw(Utils.CutText(post.Body))</div>
+            <div class="post-links">@Html.ActionLink("Read Full Review", "Details", "Posts", new { id = @post.Id }, null)</div>
         }
     </article>
 

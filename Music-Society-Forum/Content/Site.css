@@ -110,6 +110,14 @@ textarea {
     padding: 0px 0px 10px 20px;
 }
 
+.view-header {
+    background-color: seagreen;
+    color: floralwhite;
+    /*text-align: center;*/
+    padding: 20px;
+    border-radius: 15px;
+}
+
 .alert {
     margin-top: 10px;
 }

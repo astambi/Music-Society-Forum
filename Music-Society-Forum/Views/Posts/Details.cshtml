@@ -1,4 +1,5 @@
 ﻿@model Music_Society_Forum.Models.Post
+@using Music_Society_Forum.Classes;
 
 @{
     ViewBag.Title = "Details";
@@ -69,7 +70,10 @@
                         @comment.Date
                     </div>
                     <div class="comment-text">
-                        @comment.Text
+                        @Html.Raw(Utils.CutText(comment.Text))
+                        <p>
+                            @Html.ActionLink("Read Full Comment", "Details", "Comments", new { id = comment.Id }, null)
+                        </p>
                     </div>
                 }
             </div>

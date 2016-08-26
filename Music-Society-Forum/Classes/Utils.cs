@@ -7,7 +7,7 @@ namespace Music_Society_Forum.Classes
 {
     public class Utils
     {
-        public static string CutText(string text, int maxLength = 750)
+        public static string CutText(string text, int maxLength = 500)
         {
             if (text == null || text.Length <= maxLength)
                 return text;

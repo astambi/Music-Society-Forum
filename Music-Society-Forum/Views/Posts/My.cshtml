@@ -3,15 +3,14 @@
 @using Music_Society_Forum.Classes;
 
 @{
-    ViewBag.Title = "My Reviews";
+    ViewBag.Title = "My Texts";
 }
 
-<h2>My Reviews</h2>
-
+@*My Reviews*@
+<h2 class="view-header">My Reviews</h2>
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New Review", "Create")
 </p>
-
 @if (Model.Count() == 0)
 {
     <div>You have not submitted any reviews yet.</div>
@@ -20,18 +19,10 @@ else
 {
     <table class="table">
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Body)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>        
-            <th>
-                Actions
-            </th>
+            <th>@Html.DisplayNameFor(model => model.Title)</th>
+            <th>Content</th>
+            <th>@Html.DisplayNameFor(model => model.Date)</th>        
+            <th>Actions</th>
         </tr>
 
     @foreach (var post in Model)
@@ -41,12 +32,11 @@ else
                 @Html.DisplayFor(modelItem => post.Title)
             </td>
             <td>
-                @Utils.CutText(post.Body)
+                @Html.Raw(Utils.CutText(post.Body))
             </td>
             <td>
                 @Html.DisplayFor(modelItem => post.Date)
-            </td>        
-
+            </td>
             <td>
                 @Html.ActionLink("Details", "Details", new { id = post.Id })
 
@@ -66,4 +56,53 @@ else
     }
 
     </table>
+}
+
+@*My Comments*@
+<h2 class="view-header">My Comments</h2>
+<p>
+    @Html.ActionLink("Create New Comment", "Create", "Comments")
+</p>
+@if (ViewBag.Comments.Count > 0)
+{
+    <table class="table">
+        <tr>
+            <th>On</th>
+            <th>Comment</th>
+            <th>Date</th>
+            <th>Actions</th>
+        </tr>
+
+        @foreach (var comment in ViewBag.Comments)
+        {
+            <tr>
+                <td>
+                    @comment.Post.Title
+                </td>
+                <td>
+                    @Html.Raw(Utils.CutText(comment.Text))
+                </td>
+                <td>
+                    @comment.Date
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "../Comments/Details", new { id = comment.Id })
+                    @if (ViewBag.IsAdmin == true)
+                    {
+                        @: | @Html.ActionLink("Edit", "../Comments/Edit", new { id = comment.Id })
+                        @: | @Html.ActionLink("Delete", "../Comments/Delete", new { id = comment.Id })
+                    }
+                    else
+                    {
+                        @: | @Html.ActionLink("Edit", "../Comments/Edit", new { id = comment.Id })
+                    }
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+else
+{
+    <div>You have not submitted any comments yet.</div>
 }

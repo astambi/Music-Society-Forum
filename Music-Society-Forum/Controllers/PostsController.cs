@@ -81,6 +81,11 @@ namespace Music_Society_Forum.Controllers
                         .OrderByDescending(p => p.Date)
                         .ToList();
             ViewBag.IsAdmin = isAdmin();
+            ViewBag.Comments = db.Comments
+                        .Include(c => c.Post)
+                        .Where(c => c.Author != null && c.Author.UserName == User.Identity.Name)
+                        .OrderByDescending(c => c.Date)
+                        .ToList(); 
             return View(posts);
         }
 

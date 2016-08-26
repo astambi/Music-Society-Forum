@@ -1,7 +1,7 @@
 ﻿@{
     ViewBag.Title = "About";
 }
-<h2>@ViewBag.Title.</h2>
+<h2 class="view-header">@ViewBag.Title.</h2>
 @*<h3>@ViewBag.Message</h3>*@
 
 <p>I am developing this project for my <a href="https://softuni.bg/trainings/1390/software-technologies-june-2016">Software Technologies - June 2016</a> course at the Software University.</p>
@@ -14,22 +14,33 @@
     <li>Created a new Post class for the forum posts</li>
     <li>Scaffolded CRUD oprations for the posts</li>
     <li>Enabled authomatic migrations of the database and added some seed to populate the db</li>
-    <li>Implemented the listing of all posts on the home page with reference to the post details views</li>
-    <li>Modified the posts index/ details views and the corresponding controller actions</li>
-    <li>Added author data to the posts index/ details views</li>
+    <li>Implemented the listing of posts on the home page & references to post details</li>
+    <li>Modified the Posts index & details views and the corresponding controller actions</li>
+    <li>Added author data to Posts index & details views</li>
     <li>Modified the create-post functionality: current date & time => post creation date, current user => post author</li>
     <li>Modified the edit-post funcitonality to allow date modifications and swapping of users (from a dropdown list of registered users, sorted)</li>
     <li>Allowed html input in new & edited posts</li>
-    <li>Added date/time picker popup calendar in edit view (working as expecting only for Firefox)</li>
+    <li>Added date/time picker popup calendar in post-edit view (working as expecting only for Firefox)</li>
     <li>Solved the date/time picker 'invalid date' error msgs in Chrome & Opera </li>
     <li>Modified visibility of forbidden links: restricted visibility of create-links to authenticated users only</li>
     <li>Modified visibility of forbidden links: restricted visibility of delete-links in all views to admins only</li>
     <li>Modified visibility of forbidden links: restricted visibility of edit-links in all views to admins and post owners</li>
     <li>Modified the edit-post funcitonality: only admins can edit all properties in a post, post owners can only edit the title, body and date of a post, but cannot transfer ownership of the post to another user, e.g. cannot modify the post author.</li>
     <li>Updated the layout of the home page & sidebar</li>
-    <li>Added a new view holding the current user's own posts</li>
+    <li>Added a new view holding the current user's posts</li>
     <li>Added bootstrap notifications</li>
-    <li>Added a new Comment class and scaffolded CRUD operations -> TODO details</li>
+    <li>Added a new Comment class and scaffolded CRUD operations</li>
+    <li>Updated the layout of the post-details view</li>
+    <li>Added comments to My Texts view</li>
+    <li>Updated the styling of all views</li>
+    <li>Updated the content and visibility of forbidden links on My Texts</li>
+    <li>Updated the content and visibility of forbidden links on Comments view</li>
+    <li>Updated the content and layout of Comment-details view</li>
+    <li>Updated the layout of the home page once again</li>
+    <li>Restricted deletion of comments to admins only</li>
+    <li>Modified the create-comment & edit-comment functionality: guest users cannot create or edit comments</li>
+    <li>Modified the delete-comment funcitonality: only admins can delete comments
+    <li>Modified the edit-comment funcitonality: only admins and [TODO commment owners] can edit comments
 
 
 </ul>

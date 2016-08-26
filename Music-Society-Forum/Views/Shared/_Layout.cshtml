@@ -33,10 +33,11 @@
                     @* Guest users do not see the new post view *@
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li>@Html.ActionLink("My Contribution", "My", "Posts")</li>
                         <li>@Html.ActionLink("New Review", "Create", "Posts")</li>
-                    }
+                        <li>@Html.ActionLink("New Comment", "Create", "Comments")</li>
 
+                        <li>@Html.ActionLink("My Texts", "My", "Posts")</li>
+                    }
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")

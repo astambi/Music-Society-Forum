@@ -1,34 +1,88 @@
 ﻿@model Music_Society_Forum.Models.Comment
+@using Music_Society_Forum.Classes;
 
 @{
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<section class="row">
 
-<div>
-    <h4>Comment</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Text)
-        </dt>
+    <article class="post col-md-8">
 
-        <dd>
-            @Html.DisplayFor(model => model.Text)
-        </dd>
+        @* Comment Details *@
+        <h2 class="post-title">
+            Comment on: @Html.DisplayFor(model => model.Post.Title)
+        </h2>
+        <div class="post-subtitle">
+            Posted on <i>@Model.Date</i>
+            @if (ViewBag.CommentAuthor != null)
+            {
+                @:by
+                if (ViewBag.CommentAuthor.FullName != null)
+                {
+                    <i>@ViewBag.CommentAuthor.FullName (@ViewBag.CommentAuthor.UserName)</i>
+                }
+                else
+                {
+                    <i>@ViewBag.CommentAuthor.UserName</i>
+                }
+            }
+        </div>
+        <div class="post-body">
+            @Html.Raw(Model.Text)
+        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
+        @* Comment Links *@
+        <div class="post-links">
+            @Html.ActionLink("Back to List", "Index")
 
-        <dd>
-            @Html.DisplayFor(model => model.Date)
-        </dd>
+            @*  Admins can edit and delete ALL Posts,
+                post Owners can edit their own posts, but cannot delete them. *@
+            @if (ViewBag.IsAdmin)
+            {
+                @: | @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+                @: | @Html.ActionLink("Delete", "Delete", new { id = Model.Id })
+            }
+            else if (ViewBag.IsOwner)
+            {
+                @: | @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+            }
+        </div>
+    </article> 
 
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+    @* Commented Post *@
+    <aside class="comments-sidebar col-md-3">
+        <h4 class="comments-header">
+            Commented Review
+        </h4>         
+        <div class="comment">
+            <div class="comment-title">
+                @ViewBag.CommentedPost.Title
+            </div>
+            <div class="comment-subtitle">
+                @ViewBag.CommentedPost.Date
+                @if (ViewBag.PostAuthor != null)
+                {
+                    <br />@:by 
+                    if (ViewBag.PostAuthor.FullName != null)
+                    {
+                        @ViewBag.PostAuthor.FullName
+                    }
+                    else
+                    {
+                        @ViewBag.PostAuthor.UserName
+                    }
+                }                
+            </div>
+            <div class="comment-text">
+                @Html.Raw(Utils.CutText(ViewBag.CommentedPost.Body))
+                <p>
+                    @Html.ActionLink("Read Full Review", "Details", "Posts", new { id = ViewBag.CommentedPost.Id }, null)
+                </p>
+            </div> 
+            
+        </div>
+    </aside>  
+
+    
+</section>

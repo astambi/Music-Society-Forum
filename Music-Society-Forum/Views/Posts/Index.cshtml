@@ -3,32 +3,22 @@
 @using Music_Society_Forum.Classes;
 
 @{
-    ViewBag.Title = "All Reviews";
+    ViewBag.Title = "Reviews";
 }
 
-<h2>All Reviews</h2>
+<h2 class="view-header">All Reviews</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        @*<th>
-            @Html.DisplayNameFor(model => model.Body)
-        </th>*@
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Author)
-        </th>
+        <th>@Html.DisplayNameFor(model => model.Title)</th>
+        <th>Content</th>
+        <th>@Html.DisplayNameFor(model => model.Date)</th>
+        <th>@Html.DisplayNameFor(model => model.Author)</th>
         <th>Comments Count</th>        
-        <th>
-            Actions
-        </th>
+        <th>Actions</th>
     </tr>
 
 @foreach (var post in Model) {
@@ -36,9 +26,9 @@
         <td>
             @Html.DisplayFor(modelItem => post.Title)
         </td>
-        @*<td>
-            @Utils.CutText(post.Body)
-        </td>*@
+        <td>
+            @Html.Raw(Utils.CutText(post.Body))
+        </td>
         <td>
             @Html.DisplayFor(modelItem => post.Date)
         </td>

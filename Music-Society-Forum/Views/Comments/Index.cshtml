@@ -1,54 +1,65 @@
 ﻿@model IEnumerable<Music_Society_Forum.Models.Comment>
+@using Music_Society_Forum.Classes;
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Comments";
 }
 
-<h2>Comments</h2>
+<h2 class="view-header">All Comments</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Text)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-
-        <th>
-            @Html.DisplayNameFor(model => model.Post)
-        </th>
-
-        <th>
-            @Html.DisplayNameFor(model => model.Author)
-        </th>
-
+        <th>Commented Review</th>
+        <th>Comment</th>
+        <th>@Html.DisplayNameFor(model => model.Date)</th>    
+        <th>@Html.DisplayNameFor(model => model.Author)</th>
         <th>Actions</th>
     </tr>
 
 @foreach (var comment in Model) {
-    <tr>
+    <tr>   
         <td>
-            @Html.DisplayFor(modelItem => comment.Text)
+            @Html.DisplayFor(modelItem => comment.Post.Title)
+        </td>     
+        <td>
+            @Html.Raw(Utils.CutText(comment.Text))
         </td>
         <td>
             @Html.DisplayFor(modelItem => comment.Date)
-        </td>
-
+        </td>        
         <td>
-            @Html.DisplayFor(modelItem => comment.Post.Title)
-        </td>
+            @if (comment.Author != null)
+            {
+                if (comment.Author.FullName != null)
+                {
+                    @Html.DisplayFor(modelItem => comment.Author.FullName)
+                    @:(@Html.DisplayFor(modelItem => comment.Author.UserName))
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => comment.Author.UserName)
+                }
+            }
+            else
+            {
+                <i>Undisclosed author</i>
+            }
+        </td>        
         <td>
-            @Html.DisplayFor(modelItem => comment.Author.FullName)
-        </td>
-
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=comment.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=comment.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=comment.Id })
+            @Html.ActionLink("Details", "Details", new { id=comment.Id })
+            @if (ViewBag.IsAdmin)
+            {
+                @: | @Html.ActionLink("Edit", "Edit", new { id = comment.Id })
+                @: | @Html.ActionLink("Delete", "Delete", new { id = comment.Id })
+            }
+            else if (comment.Author_Id != null &&
+                     comment.Author.UserName == User.Identity.Name)
+            {
+                @: | @Html.ActionLink("Edit", "Edit", new { id = comment.Id })
+            }
         </td>
     </tr>
 }
