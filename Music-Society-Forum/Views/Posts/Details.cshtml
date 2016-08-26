@@ -4,86 +4,76 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
-
-<div>
-    <h4>Post</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
+<section class="row">  
+    <article class="post col-md-8">
+        
+        @* Post Details *@
+        <h2 class="post-title">
             @Html.DisplayFor(model => model.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Body)
-        </dt>
-
-        <dd>
+        </h2>
+        <div class="post-subtitle">
+            Posted on <i>@Model.Date</i>
+            @if (Model.Author != null)
+            {
+                @:by
+                if (Model.Author.FullName != null)
+                {
+                    <i>@Model.Author.FullName (@Model.Author.UserName)</i>
+                }
+                else
+                {
+                    <i>@Model.Author.UserName</i>
+                }
+            }
+        </div>
+        <div class="post-body">
             @Html.Raw(Model.Body)
-        </dd>
+        </div>    
+        
+        @* Post Links *@
+        <div class="post-links">
+            @Html.ActionLink("Back to List", "Index")
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Date)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Author)
-        </dt>
-
-        <dd>
-            @if (ViewBag.PostAuthor != null)
+            @*  Admins can edit and delete ALL Posts,
+                post Owners can edit their own posts, but cannot delete them. *@
+            @if (ViewBag.IsAdmin)
             {
-                @ViewBag.PostAuthor.FullName @:(@ViewBag.PostAuthor.UserName)
+                @: | @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+                @: | @Html.ActionLink("Delete", "Delete", new { id = Model.Id })
             }
-            else
+            else if (ViewBag.IsOwner)
             {
-                <i>Undisclosed author</i>
+                @: | @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
             }
-        </dd>
+        </div>        
+            
+    </article> 
 
-    </dl>    
+    @* Post Comments *@
+    <aside class="comments-sidebar col-md-3">
+        <h4 class="comments-header">
+            Comments (@ViewBag.Comments.Count)
+        </h4>
+        <div class="comment-links">
+            @Html.ActionLink("Add Comment", "Create", "Comments")
+        </div>
+        @if (ViewBag.Comments.Count > 0)
+        {
+            <div class="comment">
+                @foreach (var comment in ViewBag.Comments)
+                {
+                    <div class="comment-title">
+                        @comment.Author.FullName
+                    </div>
+                    <div class="comment-subtitle">
+                        @comment.Date
+                    </div>
+                    <div class="comment-text">
+                        @comment.Text
+                    </div>
+                }
+            </div>
+        }
+    </aside>  
 
-    <h4>Comments (@ViewBag.Comments.Count)</h4>   
-
-    <p>
-        @Html.ActionLink("Add Comment", "Create", "Comments")
-    </p>  
-    @if (ViewBag.Comments.Count > 0)
-    {
-        <dl class="dl-horizontal">
-            @foreach (var comment in ViewBag.Comments)
-            {
-                <dt>@comment.Date</dt>
-                <dd>@comment.Text <br />
-                    <i>~ @comment.Author.FullName, @comment.Author.UserName</i>                    
-                </dd>
-            }           
-        </dl>
-    }    
-    <hr />
-
-</div>   
-
-<p>
-    @Html.ActionLink("Back to List", "Index")
-
-    @*  Admins can edit and delete ALL Posts,
-        post Owners can edit their own posts, but cannot delete them. *@
-    @if(ViewBag.IsAdmin)
-    {
-        @: | @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
-        @: | @Html.ActionLink("Delete", "Delete", new { id = Model.Id })
-    }
-    else if(ViewBag.IsOwner)
-    {
-        @: | @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
-    }
-</p>
+</section>   

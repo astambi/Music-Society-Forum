@@ -16,15 +16,16 @@
         <th>
             @Html.DisplayNameFor(model => model.Title)
         </th>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.Body)
-        </th>
+        </th>*@
         <th>
             @Html.DisplayNameFor(model => model.Date)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Author)
         </th>
+        <th>Comments Count</th>        
         <th>
             Actions
         </th>
@@ -35,9 +36,9 @@
         <td>
             @Html.DisplayFor(modelItem => post.Title)
         </td>
-        <td>
+        @*<td>
             @Utils.CutText(post.Body)
-        </td>
+        </td>*@
         <td>
             @Html.DisplayFor(modelItem => post.Date)
         </td>
@@ -59,6 +60,7 @@
                 <i>Undisclosed author</i>
             }
         </td>
+        <td>TODO</td>
         <td>
             @Html.ActionLink("Details", "Details", new { id = post.Id })
 

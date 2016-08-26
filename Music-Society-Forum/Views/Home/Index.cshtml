@@ -11,11 +11,13 @@
 
 <section class="row">     
 
+    @*Posts*@
     <article class="post col-md-8"> 
         @foreach (var post in Model)
         {
             <h2 class="post-title">
-                @Html.ActionLink((string)@post.Title, "Details", "Posts", new { id = @post.Id }, null)
+                @post.Title
+                @*@Html.ActionLink((string)@post.Title, "Details", "Posts", new { id = @post.Id }, null)*@
             </h2>
             <div class="post-subtitle">
                 Posted on <i>@post.Date</i>
@@ -33,45 +35,58 @@
                 }
             </div>
             <div class="post-body">@Html.Raw(post.Body)</div>
+            <div>@Html.ActionLink("See Details", "Details", "Posts", new { id = @post.Id }, null)</div>
         }
     </article>
 
     <aside class="sidebar col-md-3"> 
 
-        <h2 class="sidebar-title">Recent Reviews</h2>
-        @foreach (var post in ViewBag.SidebarPosts)
-        {
-            <h5 class="sidebar-post">
-                @Html.ActionLink((string)@post.Title, "Details", "Posts", new { id = @post.Id }, null)
-            </h5>
-        }
-                
-        <h2>Recommended recordings</h2>
-        <div>
-            <a href="https://play.spotify.com/album/0eJWOnvBlZDQOFkcYYukLW">
-                <img src="~/Content/images/missasolemnis.jpg" />
-                Beethoven: Missa Solemnis, Philippe Herreweghe
-            </a>
+        @*Reviews*@
+        <h4 class="sidebar-header">Recent Reviews</h4>
+        <div class="sidebar-block">
+            @if (ViewBag.SidebarPosts.Count > 0)
+            {
+                foreach (var post in ViewBag.SidebarPosts)
+                {
+                    <h5 class="sidebar-post">
+                        @Html.ActionLink((string)@post.Title, "Details", "Posts", new { id = @post.Id }, null)
+                    </h5>
+                }
+            }
         </div>        
-        <div>
-            <a href="https://play.spotify.com/album/3tDNolZfho9MTSRqwoBcFy">
-                <img src="~/Content/images/ring.jpg" />
-                Wagner: Der Ring des Nibelungen, Sir Georg Solti
-            </a>
-        </div> 
-        <div>
-            <a href="https://play.spotify.com/album/18LnGj50WB5xEFeSaCbW8H">
-                <img src="~/Content/images/stabatmater.jpg" />
-                Pergolesi & Scarlatti: Stabat Mater, Rinaldo Alessandrini, Sara Mingardo
-            </a>
-        </div>        
+            
+        @*Recordings*@    
+        <h4 class="sidebar-header">Recommended Recordings</h4>
+        <div class="sidebar-block">
+            <div>
+                <a href="https://play.spotify.com/album/0eJWOnvBlZDQOFkcYYukLW">
+                    <img src="~/Content/images/missasolemnis.jpg" />
+                    Beethoven: Missa Solemnis, Philippe Herreweghe
+                </a>
+            </div>
+            <div>
+                <a href="https://play.spotify.com/album/3tDNolZfho9MTSRqwoBcFy">
+                    <img src="~/Content/images/ring.jpg" />
+                    Wagner: Der Ring des Nibelungen, Sir Georg Solti
+                </a>
+            </div>
+            <div>
+                <a href="https://play.spotify.com/album/18LnGj50WB5xEFeSaCbW8H">
+                    <img src="~/Content/images/stabatmater.jpg" />
+                    Pergolesi & Scarlatti: Stabat Mater, Rinaldo Alessandrini, Sara Mingardo
+                </a>
+            </div>
+        </div>
 
-        <h2 class="sidebar-title">Recommended Videos</h2>
-        <iframe width="210" height="155" src="https://www.youtube.com/embed/FIQQv39dcNE" frameborder="0" allowfullscreen></iframe>
-        <iframe width="210" height="155" src="https://www.youtube.com/embed/SQO7QIgNvA0" frameborder="0" allowfullscreen></iframe>
-        <iframe width="210" height="155" src="https://www.youtube.com/embed/aPAiH9XhTHc" frameborder="0" allowfullscreen></iframe>
-        <iframe width="210" height="155" src="https://www.youtube.com/embed/dpVV9jShEzU" frameborder="0" allowfullscreen></iframe>
-        
-    </aside>
+        @*Videos*@
+        <h4 class="sidebar-header">Recommended Videos</h4>
+        <div class="sidebar-block">
+            <iframe width="210" height="155" src="https://www.youtube.com/embed/FIQQv39dcNE" frameborder="0" allowfullscreen></iframe>
+            <iframe width="210" height="155" src="https://www.youtube.com/embed/SQO7QIgNvA0" frameborder="0" allowfullscreen></iframe>
+            <iframe width="210" height="155" src="https://www.youtube.com/embed/aPAiH9XhTHc" frameborder="0" allowfullscreen></iframe>
+            <iframe width="210" height="155" src="https://www.youtube.com/embed/dpVV9jShEzU" frameborder="0" allowfullscreen></iframe>
+        </div>
+
+</aside>
     
 </section>
