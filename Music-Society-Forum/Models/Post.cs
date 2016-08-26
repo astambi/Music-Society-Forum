@@ -9,6 +9,7 @@ namespace Music_Society_Forum.Models
 {
     public class Post
     {
+
         public Post()
         {
             this.Date = DateTime.Now;
@@ -32,6 +33,8 @@ namespace Music_Society_Forum.Models
 
         [ForeignKey("Author_Id")]
         public ApplicationUser Author { get; set; }
+
+        public int CommentsCount { get; set; }
 
     }
 }

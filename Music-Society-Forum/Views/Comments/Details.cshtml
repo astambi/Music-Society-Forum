@@ -77,7 +77,7 @@
             <div class="comment-text">
                 @Html.Raw(Utils.CutText(ViewBag.CommentedPost.Body))
                 <p>
-                    @Html.ActionLink("Read Full Review", "Details", "Posts", new { id = ViewBag.CommentedPost.Id }, null)
+                    @Html.ActionLink("Read Review", "Details", "Posts", new { id = ViewBag.CommentedPost.Id }, null)
                 </p>
             </div> 
             

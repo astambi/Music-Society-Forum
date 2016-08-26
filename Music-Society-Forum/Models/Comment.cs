@@ -24,8 +24,8 @@ namespace Music_Society_Forum.Models
         [Required]
         public DateTime Date { get; set; }
 
-        //public int Post_Id { get; set; }
-        //[ForeignKey("Post_Id")]
+        public int Post_Id { get; set; }
+        [ForeignKey("Post_Id")]
         [Required]
         public Post Post { get; set; }
 

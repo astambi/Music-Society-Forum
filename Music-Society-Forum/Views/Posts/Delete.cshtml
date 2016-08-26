@@ -45,6 +45,28 @@
                 <i>Undisclosed author</i>
             }
         </dd>
+        <dt>
+            Comments
+        </dt>
+        <dd>
+            (@ViewBag.Comments.Count)
+            @if (ViewBag.Comments.Count > 0)
+            { 
+                @: :
+                <ul>
+                    @foreach (var comment in ViewBag.Comments)
+                    {
+                    <li>
+                        @comment.Date - @comment.Author.FullName (@comment.Author.UserName) - 
+                        @Html.ActionLink("Details", "../Comments/Details", new { id = comment.Id }) |
+                        @Html.ActionLink("Edit", "../Comments/Edit", new { id = comment.Id }) |
+                        @Html.ActionLink("Delete", "../Comments/Delete", new { id = comment.Id })
+                    </li>
+                    }  
+                </ul>
+            }
+            
+        </dd>
 
     </dl>
 

@@ -38,9 +38,9 @@ namespace Music_Society_Forum.Controllers
         public ActionResult Index()
         {
             var postsWithAuthors = db.Posts
-                                .Include(p => p.Author)
-                                .OrderByDescending(p => p.Date)
-                                .ToList();
+                            .Include(p => p.Author)
+                            .OrderByDescending(p => p.Date)
+                            .ToList();           
             ViewBag.IsAdmin = isAdmin();
             return View(postsWithAuthors);
         }
@@ -58,12 +58,11 @@ namespace Music_Society_Forum.Controllers
                 return HttpNotFound();
             }
             ViewBag.PostAuthor = db.Posts
-                                .Where(p => p.Id == id)
-                                .Select(u => u.Author)
-                                .FirstOrDefault();
+                            .Where(p => p.Id == id)
+                            .Select(u => u.Author)
+                            .FirstOrDefault();
             ViewBag.IsAdmin = isAdmin();
             ViewBag.IsOwner = isPostOwner(post);
-
             ViewBag.Comments = db.Comments
                             .Include(c => c.Author)
                             .Where(c => c.Post.Id == id)
@@ -183,9 +182,14 @@ namespace Music_Society_Forum.Controllers
                 return HttpNotFound();
             }            
             ViewBag.PostAuthor = db.Posts
-                                .Where(p => p.Id == id)
-                                .Select(u => u.Author)
-                                .FirstOrDefault();
+                            .Where(p => p.Id == id)
+                            .Select(u => u.Author)
+                            .FirstOrDefault();
+            ViewBag.Comments = db.Comments
+                            .Include(c => c.Author)
+                            .Where(c => c.Post.Id == id)
+                            .OrderByDescending(c => c.Date)
+                            .ToList();
             return View(post);
         }
 

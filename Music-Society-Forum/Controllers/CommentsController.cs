@@ -11,6 +11,7 @@ using Music_Society_Forum.Extensions;
 
 namespace Music_Society_Forum.Controllers
 {
+    [ValidateInput(false)]
     public class CommentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
