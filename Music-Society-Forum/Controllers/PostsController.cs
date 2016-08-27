@@ -50,12 +50,16 @@ namespace Music_Society_Forum.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                this.AddNotification("Please select an article", NotificationType.INFO);
+                return RedirectToAction("Index");
             }
             Post post = db.Posts.Find(id);
             if (post == null)
             {
-                return HttpNotFound();
+                //return HttpNotFound();
+                this.AddNotification("The requested article does not exist", NotificationType.INFO);
+                return RedirectToAction("Index");
             }
             ViewBag.PostAuthor = db.Posts
                             .Where(p => p.Id == id)
@@ -68,6 +72,7 @@ namespace Music_Society_Forum.Controllers
                             .Where(c => c.Post.Id == id)
                             .OrderByDescending(c => c.Date)
                             .ToList();
+            //ViewBag.Comments = post.Comments.ToList(); ???
             return View(post);
         }
 
@@ -110,7 +115,7 @@ namespace Music_Society_Forum.Controllers
                              .FirstOrDefault();
                 db.Posts.Add(post);
                 db.SaveChanges();
-                this.AddNotification("Review created", NotificationType.SUCCESS);
+                this.AddNotification("Created a new article", NotificationType.SUCCESS);
                 return RedirectToAction("My");
             }
             return View(post);
@@ -122,16 +127,20 @@ namespace Music_Society_Forum.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                this.AddNotification("Please select an article", NotificationType.INFO);
+                return RedirectToAction("Index");
             }
             Post post = db.Posts.Find(id);
             if (post == null)
             {
-                return HttpNotFound();
+                //return HttpNotFound();
+                this.AddNotification("The requested article does not exist", NotificationType.INFO);
+                return RedirectToAction("Index");
             }            
             if (!isAdmin() && !isPostOwner(post))
             {
-                this.AddNotification("Review created by another user", NotificationType.INFO);
+                this.AddNotification("The article was created by another user", NotificationType.INFO);
                 return RedirectToAction("My");
             }
             var authors = db.Users
@@ -160,7 +169,7 @@ namespace Music_Society_Forum.Controllers
             {
                 db.Entry(post).State = EntityState.Modified;
                 db.SaveChanges();
-                this.AddNotification("Review modified", NotificationType.SUCCESS);
+                this.AddNotification("Modified article", NotificationType.SUCCESS);
                 if (isAdmin())
                     return RedirectToAction("Index");
                 return RedirectToAction("My");
@@ -174,12 +183,16 @@ namespace Music_Society_Forum.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                this.AddNotification("Please select an article", NotificationType.INFO);
+                return RedirectToAction("Index");
             }
             Post post = db.Posts.Find(id);
             if (post == null)
             {
-                return HttpNotFound();
+                //return HttpNotFound();
+                this.AddNotification("The requested article does not exist", NotificationType.INFO);
+                return RedirectToAction("Index");
             }            
             ViewBag.PostAuthor = db.Posts
                             .Where(p => p.Id == id)
@@ -202,7 +215,7 @@ namespace Music_Society_Forum.Controllers
             Post post = db.Posts.Find(id);
             db.Posts.Remove(post);
             db.SaveChanges();
-            this.AddNotification("Review deleted", NotificationType.SUCCESS);
+            this.AddNotification("Deleted article", NotificationType.SUCCESS);
             return RedirectToAction("Index");
         }
 

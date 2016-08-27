@@ -34,8 +34,6 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("New Review", "Create", "Posts")</li>
-                        <li>@Html.ActionLink("New Comment", "Create", "Comments")</li>
-
                         <li>@Html.ActionLink("My Texts", "My", "Posts")</li>
                     }
                     <li>@Html.ActionLink("About", "About", "Home")</li>
