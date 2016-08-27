@@ -54,6 +54,10 @@ else
                 else
                 {
                     @: | @Html.ActionLink("Edit", "Edit", new { id = post.Id })
+                    if (post.Comments.Count == 0)
+                    {
+                        @: | @Html.ActionLink("Delete", "Delete", new { id = post.Id })
+                    }
                 }
             </td>
         </tr>
@@ -91,7 +95,12 @@ else
                 </td>
                 <td>
                     @Html.ActionLink("Details", "../Comments/Details", new { id = comment.Id })
-                    @if (ViewBag.IsAdmin == true)
+
+                    | @Html.ActionLink("Edit", "../Comments/Edit", new { id = comment.Id })
+                    | @Html.ActionLink("Delete", "../Comments/Delete", new { id = comment.Id })
+
+                    @* only admins can delete posts, owners can edit *@
+                    @*@if (ViewBag.IsAdmin == true)
                     {
                         @: | @Html.ActionLink("Edit", "../Comments/Edit", new { id = comment.Id })
                         @: | @Html.ActionLink("Delete", "../Comments/Delete", new { id = comment.Id })
@@ -99,7 +108,7 @@ else
                     else
                     {
                         @: | @Html.ActionLink("Edit", "../Comments/Edit", new { id = comment.Id })
-                    }
+                    }*@
                 </td>
             </tr>
         }

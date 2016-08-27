@@ -43,7 +43,7 @@ namespace Music_Society_Forum.Controllers
                                 .OrderByDescending(c => c.Date)
                                 .ToList();
             ViewBag.IsAdmin = isAdmin();
-            return View(commentsWithAuthorsPosts.ToList());
+            return View(commentsWithAuthorsPosts);
         }
 
         // GET: Comments/Details/5
@@ -51,12 +51,16 @@ namespace Music_Society_Forum.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                this.AddNotification("Please select a comment", NotificationType.INFO);
+                return RedirectToAction("Index");
             }
             Comment comment = db.Comments.Find(id);
             if (comment == null)
             {
-                return HttpNotFound();
+                //return HttpNotFound();
+                this.AddNotification("The requested comment does not exist", NotificationType.INFO);
+                return RedirectToAction("Index");
             }
             ViewBag.CommentAuthor = db.Comments
                                 .Include(c => c.Author)
@@ -79,28 +83,55 @@ namespace Music_Society_Forum.Controllers
             return View(comment);
         }
 
-        // GET: Comments/Create
+        // GET: Comments/Create/5
         [Authorize]
-        public ActionResult Create()
+        public ActionResult Create(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                this.AddNotification("Please select the article you would like to comment", NotificationType.INFO);
+                return RedirectToAction("Index", "Posts");
+            }
+            Post post = db.Posts.Find(id);            
+            if (post == null)
+            {
+                //return HttpNotFound();
+                this.AddNotification("The requested article does not exist", NotificationType.INFO);
+                return RedirectToAction("Index", "Posts");
+            }
+
+            // TODO Create comment !!!
+
+            Comment comment = new Comment();
+            comment.Post_Id = post.Id;
+            return View(comment);
         }
 
-        // POST: Comments/Create
+        // POST: Comments/Create/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Text,Date")] Comment comment)
+        public ActionResult Create([Bind(Include = "Id, Text, Author_Id, Post_Id")] Comment comment)
         {
             if (ModelState.IsValid)
             {
+                // TODO Create comment !!!
+
+                comment.Author = db.Users
+                                .Where(u => u.UserName == User.Identity.Name)
+                                .FirstOrDefault();
                 db.Comments.Add(comment);
                 db.SaveChanges();
+                this.AddNotification("Created a new comment", NotificationType.SUCCESS);
                 return RedirectToAction("Index");
             }
-
+            else
+            {               
+                this.AddNotification("Unable to create comment", NotificationType.ERROR);
+            }
             return View(comment);
         }
 
@@ -110,13 +141,38 @@ namespace Music_Society_Forum.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                this.AddNotification("Please select a comment", NotificationType.INFO);
+                return RedirectToAction("Index");
             }
             Comment comment = db.Comments.Find(id);
             if (comment == null)
             {
-                return HttpNotFound();
+                //return HttpNotFound();
+                this.AddNotification("The requested comment does not exist", NotificationType.INFO);
+                return RedirectToAction("Index");
             }
+            if (!isAdmin() && !isCommentOwner(comment))
+            {
+                this.AddNotification("The comment was created by another user", NotificationType.INFO);
+                return RedirectToAction("My", "Posts");
+            }
+            var authors = db.Users
+                        .OrderBy(u => u.FullName)
+                        .ThenBy(u => u.UserName)
+                        .ToList();
+            var posts = db.Posts
+                        .OrderByDescending(p => p.Date)
+                        .ToList();
+            ViewBag.Authors = authors;
+            ViewBag.Posts = posts;
+            ViewBag.CommentAuthor = db.Comments
+                        .Where(c => c.Id == id)
+                        .Select(u => u.Author)
+                        .FirstOrDefault();
+            ViewBag.IsAdmin = isAdmin();
+            ViewBag.IsOwner = isCommentOwner(comment);
+
             return View(comment);
         }
 
@@ -126,29 +182,45 @@ namespace Music_Society_Forum.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Text,Date")] Comment comment)
+        public ActionResult Edit([Bind(Include = "Id,Text,Date, Author_Id, Post_Id")] Comment comment)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(comment).State = EntityState.Modified;
                 db.SaveChanges();
+                this.AddNotification("Modified comment", NotificationType.SUCCESS);
+                if (isCommentOwner(comment))
+                    return RedirectToAction("My", "Posts");
                 return RedirectToAction("Index");
+            }
+            else
+            {
+                this.AddNotification("Unable to modify comment", NotificationType.ERROR);
             }
             return View(comment);
         }
 
         // GET: Comments/Delete/5
-        [Authorize(Roles = "Administrators")]
+        [Authorize]
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                this.AddNotification("Please select a comment", NotificationType.INFO);
+                return RedirectToAction("Index");
             }
             Comment comment = db.Comments.Find(id);
             if (comment == null)
             {
-                return HttpNotFound();
+                //return HttpNotFound();
+                this.AddNotification("The requested comment does not exist", NotificationType.INFO);
+                return RedirectToAction("Index");
+            }
+            if (!isAdmin() && !isCommentOwner(comment))
+            {
+                this.AddNotification("The comment was created by another user", NotificationType.INFO);
+                return RedirectToAction("My", "Posts");
             }
             ViewBag.CommentAuthor = db.Comments
                                     .Where(c => c.Id == id)
@@ -164,14 +236,14 @@ namespace Music_Society_Forum.Controllers
 
         // POST: Comments/Delete/5
         [HttpPost, ActionName("Delete")]
-        [Authorize(Roles = "Administrators")]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             Comment comment = db.Comments.Find(id);
             db.Comments.Remove(comment);
             db.SaveChanges();
-            this.AddNotification("Comment deleted", NotificationType.SUCCESS);
+            this.AddNotification("Deleted comment", NotificationType.SUCCESS);
             return RedirectToAction("Index");
         }
 

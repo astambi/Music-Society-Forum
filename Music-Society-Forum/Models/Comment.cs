@@ -25,11 +25,13 @@ namespace Music_Society_Forum.Models
         public DateTime Date { get; set; }
 
         public int Post_Id { get; set; }
+
         [ForeignKey("Post_Id")]
         [Required]
         public Post Post { get; set; }
 
         public string Author_Id { get; set; }
+
         [ForeignKey("Author_Id")]
         [Required]
         public ApplicationUser Author { get; set; }

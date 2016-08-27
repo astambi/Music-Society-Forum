@@ -12,7 +12,7 @@ namespace Music_Society_Forum.Models
 
         public Post()
         {
-            this.Date = DateTime.Now;            
+            this.Date = DateTime.Now;
             this.Comments = new HashSet<Comment>(); // added Comments in Post class
         }
 

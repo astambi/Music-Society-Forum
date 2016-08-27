@@ -37,16 +37,16 @@
             @Html.ActionLink("Back to List", "Index")
 
             @*  Admins can edit and delete ALL Posts,
-                post Owners can edit their own posts, but cannot delete them. *@
-            @if (ViewBag.IsAdmin)
+                post Owners can edit their own posts, also delete them. *@
+            @if (ViewBag.IsAdmin || ViewBag.IsOwner)
             {
                 @: | @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
                 @: | @Html.ActionLink("Delete", "Delete", new { id = Model.Id })
             }
-            else if (ViewBag.IsOwner)
+            @*else if (ViewBag.IsOwner)
             {
                 @: | @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
-            }
+            }*@
         </div>
     </article> 
 

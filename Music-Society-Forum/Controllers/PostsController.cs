@@ -137,7 +137,7 @@ namespace Music_Society_Forum.Controllers
                 //return HttpNotFound();
                 this.AddNotification("The requested article does not exist", NotificationType.INFO);
                 return RedirectToAction("Index");
-            }            
+            } 
             if (!isAdmin() && !isPostOwner(post))
             {
                 this.AddNotification("The article was created by another user", NotificationType.INFO);
@@ -170,15 +170,15 @@ namespace Music_Society_Forum.Controllers
                 db.Entry(post).State = EntityState.Modified;
                 db.SaveChanges();
                 this.AddNotification("Modified article", NotificationType.SUCCESS);
-                if (isAdmin())
-                    return RedirectToAction("Index");
-                return RedirectToAction("My");
-            }            
+                if (isPostOwner(post))
+                    return RedirectToAction("My");
+                return RedirectToAction("Index");
+            }
             return View(post);
         }
 
         // GET: Posts/Delete/5
-        [Authorize(Roles = "Administrators")]
+        [Authorize]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -193,7 +193,17 @@ namespace Music_Society_Forum.Controllers
                 //return HttpNotFound();
                 this.AddNotification("The requested article does not exist", NotificationType.INFO);
                 return RedirectToAction("Index");
-            }            
+            }
+            if (!isAdmin() && !isPostOwner(post))
+            {
+                this.AddNotification("The article was created by another user", NotificationType.INFO);
+                return RedirectToAction("My");
+            }
+            if (!isAdmin() && isPostOwner(post) && post.Comments.Count > 0)
+            {
+                this.AddNotification("You are not allowed to delete an article with comments", NotificationType.INFO);
+                return RedirectToAction("My");
+            }
             ViewBag.PostAuthor = db.Posts
                             .Where(p => p.Id == id)
                             .Select(u => u.Author)
@@ -208,7 +218,7 @@ namespace Music_Society_Forum.Controllers
 
         // POST: Posts/Delete/5
         [HttpPost, ActionName("Delete")]
-        [Authorize(Roles = "Administrators")]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {

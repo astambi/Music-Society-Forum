@@ -25,7 +25,7 @@
                 @Html.ActionLink("Music Society Forum", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav">                                     
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("Reviews", "Index", "Posts")</li>
                     <li>@Html.ActionLink("Comments", "Index", "Comments")</li>
@@ -34,8 +34,14 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("New Review", "Create", "Posts")</li>
-                        <li>@Html.ActionLink("My Texts", "My", "Posts")</li>
+                        <li>@Html.ActionLink("My Space", "My", "Posts")</li>
                     }
+
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Administrators"))
+                    {
+                        <li>@Html.ActionLink("Admin", "Index", "Admin")</li>
+                    }
+
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
