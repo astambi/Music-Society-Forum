@@ -12,7 +12,8 @@ namespace Music_Society_Forum.Models
 
         public Post()
         {
-            this.Date = DateTime.Now;
+            this.Date = DateTime.Now;            
+            this.Comments = new HashSet<Comment>(); // added Comments in Post class
         }
 
         [Key]
@@ -34,7 +35,8 @@ namespace Music_Society_Forum.Models
         [ForeignKey("Author_Id")]
         public ApplicationUser Author { get; set; }
 
-        public int CommentsCount { get; set; }
+        // added Comments in Post class
+        public virtual ICollection<Comment> Comments { get; set; }
 
     }
 }

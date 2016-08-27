@@ -21,7 +21,8 @@ else
         <tr>
             <th>@Html.DisplayNameFor(model => model.Title)</th>
             <th>Content</th>
-            <th>@Html.DisplayNameFor(model => model.Date)</th>        
+            <th>@Html.DisplayNameFor(model => model.Date)</th>
+            <th>@Html.DisplayNameFor(model => model.Comments)</th>
             <th>Actions</th>
         </tr>
 
@@ -36,6 +37,9 @@ else
             </td>
             <td>
                 @Html.DisplayFor(modelItem => post.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => post.Comments.Count)
             </td>
             <td>
                 @Html.ActionLink("Details", "Details", new { id = post.Id })

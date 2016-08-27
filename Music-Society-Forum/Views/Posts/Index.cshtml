@@ -17,7 +17,7 @@
         <th>Content</th>
         <th>@Html.DisplayNameFor(model => model.Date)</th>
         <th>@Html.DisplayNameFor(model => model.Author)</th>
-        <th>Comments</th>
+        <th>@Html.DisplayNameFor(model => model.Comments)</th>
         <th>Actions</th>
     </tr>
 
@@ -51,7 +51,7 @@
             }
         </td>
         <td>
-            TODO
+            @post.Comments.Count
         </td>
         <td>
             @Html.ActionLink("Details", "Details", new { id = post.Id })
