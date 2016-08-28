@@ -34,27 +34,71 @@
                     }
                 }
             </div>
-            <div class="post-body">@Html.Raw(Utils.CutText(post.Body))</div>
+            @*<div class="post-body">@Html.Raw(post.Body)</div>*@
+            <div class="post-body">@Html.Raw(Utils.CutTextHomePage(post.Body))</div>
             <div class="post-links">@Html.ActionLink("Read Review", "Details", "Posts", new { id = @post.Id }, null)</div>
         }
     </article>
 
     <aside class="sidebar col-md-3"> 
 
-        @*Reviews*@
-        <h4 class="sidebar-header">Recent Reviews</h4>
+        @*From Our Editors*@
+        <h4 class="sidebar-header">From Our Editors</h4>
         <div class="sidebar-block">
-            @if (ViewBag.SidebarPosts.Count > 0)
+            @if (ViewBag.RecentPosts.Count > 0)
             {
-                foreach (var post in ViewBag.SidebarPosts)
+                foreach (var post in ViewBag.EditorPosts)
                 {
                     <h5 class="sidebar-post">
                         @Html.ActionLink((string)@post.Title, "Details", "Posts", new { id = @post.Id }, null)
                     </h5>
                 }
             }
-        </div>        
-            
+        </div> 
+
+        @* Recent Posts *@
+        <h4 class="sidebar-header">Recent Reviews</h4>
+        <div class="sidebar-block">
+            @if (ViewBag.RecentPosts.Count > 0)
+            {
+                foreach (var post in ViewBag.RecentPosts)
+                {
+                    <h5 class="sidebar-post">
+                        @Html.ActionLink((string)@post.Title, "Details", "Posts", new { id = @post.Id }, null)
+                    </h5>
+                }
+            }
+        </div> 
+         
+        @* Most Commented Posts *@
+        <h4 class="sidebar-header">Most Commented</h4>
+        <div class="sidebar-block">
+            @if (ViewBag.MostCommentedPosts.Count > 0)
+            {
+                foreach (var post in ViewBag.MostCommentedPosts)
+                {
+                    <h5 class="sidebar-post">
+                        @Html.ActionLink((string)@post.Title, "Details", "Posts", new { id = @post.Id }, null)
+                    </h5>
+                }
+            }
+        </div>     
+
+        @* Recently Commented Posts *@
+        <h4 class="sidebar-header">Recently Commented</h4>
+        <div class="sidebar-block">
+            @if (ViewBag.RecentlyCommentedPosts.Count > 0)
+            {
+                foreach (var post in ViewBag.RecentlyCommentedPosts)
+                {
+                    <h5 class="sidebar-post">
+                        @Html.ActionLink((string)@post.Title, "Details", "Posts", new { id = @post.Id }, null)
+                    </h5>
+                }
+            }
+        </div> 
+
+        <hr />
         @*Recordings*@    
         <h4 class="sidebar-header">Recommended Recordings</h4>
         <div class="sidebar-block">
@@ -78,6 +122,7 @@
             </div>
         </div>
 
+        <hr />
         @*Videos*@
         <h4 class="sidebar-header">Recommended Videos</h4>
         <div class="sidebar-block">

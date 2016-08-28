@@ -73,6 +73,7 @@ namespace Music_Society_Forum.Controllers
                                 .Select(c => c.Post)
                                 .FirstOrDefault();
             ViewBag.CommentedPost = commentedPost;
+            ViewBag.CommentsCount = commentedPost.Comments.Count();
             ViewBag.PostAuthor = db.Posts
                                 .Include(p => p.Author)
                                 .Where(p => p.Id == commentedPost.Id)

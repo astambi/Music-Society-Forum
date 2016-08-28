@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Music Forum</title>
+    <title>@ViewBag.Title - Just Music</title>
     @Styles.Render("~/Content/css")
     @RenderSection("styles", required: false) @* added for datetimepicker *@
     @Scripts.Render("~/bundles/modernizr")
@@ -22,19 +22,19 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Music Society Forum", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Just Music", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">                                     
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("Reviews", "Index", "Posts")</li>
-                    <li>@Html.ActionLink("Comments", "Index", "Comments")</li>
+                    @*<li>@Html.ActionLink("Comments", "Index", "Comments")</li>*@
 
                     @* Guest users do not see the new post view *@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("New Review", "Create", "Posts")</li>
-                        <li>@Html.ActionLink("My Space", "My", "Posts")</li>
+                        <li>@Html.ActionLink("My Texts", "My", "Posts")</li>
                     }
 
                     @if (User.Identity.IsAuthenticated && User.IsInRole("Administrators"))

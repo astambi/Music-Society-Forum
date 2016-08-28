@@ -16,8 +16,28 @@ namespace Music_Society_Forum.Controllers
         {
             var posts = db.Posts
                         .Include(p => p.Author)
-                        .OrderByDescending(p => p.Date);
-            ViewBag.SidebarPosts = posts
+                        .OrderByDescending(p => p.Date)
+                        .Take(10);
+            ViewBag.RecentPosts = posts
+                        .Take(5)
+                        .ToList();
+            ViewBag.RecentlyCommentedPosts = db.Comments
+                        .Include(c => c.Post)
+                        .OrderByDescending(p => p.Date)
+                        .Select(c => c.Post)
+                        .Distinct()
+                        .Take(5)
+                        .ToList();
+            ViewBag.MostCommentedPosts = db.Posts
+                        .Include(p => p.Comments)
+                        .OrderByDescending(p => p.Comments.Count)
+                        .Take(5)
+                        .ToList();         
+            ViewBag.EditorPosts = db.Posts
+                        .Include(p => p.Author)
+                        .Where(p => p.Author.UserName == "gould@gmail.com")
+                        // TODO users in role "Editor"
+                        .OrderByDescending(p => p.Date)
                         .Take(5)
                         .ToList();
             return View(posts.ToList());
@@ -25,8 +45,7 @@ namespace Music_Society_Forum.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
-
+            //ViewBag.Message = "Your application description page.";
             return View();
         }        
     }

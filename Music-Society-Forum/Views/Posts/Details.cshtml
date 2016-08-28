@@ -51,15 +51,7 @@
                 }
             }
         </div> 
-        
-        
-        
-        @* TODO COMMENTS HERE *@
-        
-        
-        
-               
-            
+                            
     </article> 
 
     @* Post Comments *@
@@ -68,12 +60,9 @@
             Comments (@ViewBag.Comments.Count)
         </h4>
 
-        @*TODO ADD COMMENT*@
         <div class="comment-links" >
             @Html.ActionLink("Add Comment", "../Comments/Create", new { id = Model.Id })
         </div>
-
-        @* TODO SIDEBAR COMMENTS HERE *@
 
         @if (ViewBag.Comments.Count > 0)
         {
@@ -87,7 +76,7 @@
                         @comment.Date
                     </div>
                     <div class="comment-text">
-                        @Html.Raw(Utils.CutText(comment.Text))
+                        @Html.Raw(Utils.CutText(comment.Text, 300))
                         <p>
                             @Html.ActionLink("Read Comment", "Details", "Comments", new { id = comment.Id }, null)
                         </p>

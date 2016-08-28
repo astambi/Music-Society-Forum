@@ -72,7 +72,9 @@ namespace Music_Society_Forum.Controllers
                             .Where(c => c.Post.Id == id)
                             .OrderByDescending(c => c.Date)
                             .ToList();
-            //ViewBag.Comments = post.Comments.ToList(); ???
+            //ViewBag.Comments = post.Comments
+            //                .OrderByDescending(p => p.Date)
+            //                .ToList();
             return View(post);
         }
 

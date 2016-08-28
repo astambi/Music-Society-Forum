@@ -13,5 +13,12 @@ namespace Music_Society_Forum.Classes
                 return text;
             return text.Substring(0, maxLength) + "...";
         }
+
+        public static string CutTextHomePage(string text, int maxLength = 1500)
+        {
+            if (text == null || text.Length <= maxLength)
+                return text;
+            return text.Substring(0, maxLength) + "...";
+        }
     }
 }

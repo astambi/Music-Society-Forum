@@ -55,7 +55,8 @@ textarea {
     color: floralwhite;
     /*text-align: center;*/
     margin-top: -10px;
-    padding: 20px 10px 20px 10px;
+    /*padding: 20px 10px 20px 10px;*/
+    padding: 20px;
     border-radius: 15px;
 }
 
@@ -91,13 +92,13 @@ textarea {
     color: floralwhite;
     font-weight: 100;
     /*text-align: center;*/
-    padding: 10px;
+    padding: 10px 20px 10px 20px;
     border-radius: 15px;
 }
 
 .comment-subtitle {
     /*text-align: center;*/
-    padding: 0px 0 10px 10px;
+    padding: 5px 20px 5px 20px;
     font-style: italic;
 }
 

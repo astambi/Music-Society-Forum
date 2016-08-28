@@ -36,10 +36,15 @@ namespace Music_Society_Forum.Migrations
                 CreateUser(context, "merry@gmail.com", "123", "Maria Petrova");
                 CreateUser(context, "geshu@gmail.com", "123", "George Petrov");
                 CreateUser(context, "anna@gmail.com", "anna", "Anna Stambolieva");
+                CreateUser(context, "gould@gmail.com", "gould", "Glenn Gould");
 
                 CreateRole(context, "Administrators");
                 AddUserToRole(context, "admin@gmail.com", "Administrators");
                 AddUserToRole(context, "anna@gmail.com", "Administrators");
+
+                CreateRole(context, "Editors");
+                AddUserToRole(context, "anna@gmail.com", "Editors");
+                AddUserToRole(context, "gould@gmail.com", "Editors");
 
                 CreatePost(context,
                     title: "Work Begins on HTML5.1",

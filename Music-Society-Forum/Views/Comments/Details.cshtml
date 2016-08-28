@@ -51,10 +51,11 @@
     </article> 
 
     @* Commented Post *@
-    <aside class="comments-sidebar col-md-3">
+    <aside class="comments-sidebar col-md-3">  
+
         <h4 class="comments-header">
             Commented Review
-        </h4>         
+        </h4>               
         <div class="comment">
             <div class="comment-title">
                 @ViewBag.CommentedPost.Title
@@ -75,13 +76,22 @@
                 }                
             </div>
             <div class="comment-text">
-                @Html.Raw(Utils.CutText(ViewBag.CommentedPost.Body))
+                @Html.Raw(Utils.CutText(ViewBag.CommentedPost.Body, 500))
                 <p>
                     @Html.ActionLink("Read Review", "Details", "Posts", new { id = ViewBag.CommentedPost.Id }, null)
                 </p>
-            </div> 
-            
+            </div>             
         </div>
+
+        <h4 class="comments-header">
+            Comments (@ViewBag.CommentsCount)
+        </h4>
+
+        <div class="comment-links">
+            @Html.ActionLink("Add Comment", "../Comments/Create", new { id = ViewBag.CommentedPost.Id })
+            @*@Html.ActionLink("Read All", "../Comments/#", new { id = ViewBag.CommentedPost.Id })*@
+        </div>
+        
     </aside>  
 
     
