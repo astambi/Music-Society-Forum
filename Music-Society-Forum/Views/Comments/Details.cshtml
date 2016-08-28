@@ -53,6 +53,23 @@
     @* Commented Post *@
     <aside class="comments-sidebar col-md-3">  
 
+        @* Previous/ Next Links *@
+        <h4 class="pagination">
+            @if (ViewBag.Previous != null)
+            {
+                @Html.ActionLink("<< Previous", "Details", new { id = ViewBag.Previous.Id })
+                if (ViewBag.Next != null)
+                {
+                    @: |
+                }
+            }
+            @if (ViewBag.Next != null)
+            {
+                @Html.ActionLink("Next >>", "Details", new { id = ViewBag.Next.Id })
+            }
+        </h4>
+        <hr />
+
         <h4 class="comments-header">
             Commented Review
         </h4>               
@@ -76,7 +93,7 @@
                 }                
             </div>
             <div class="comment-text">
-                @Html.Raw(Utils.CutText(ViewBag.CommentedPost.Body, 500))
+                @Html.Raw(Utils.CutText(ViewBag.CommentedPost.Body, 300))
                 <p>
                     @Html.ActionLink("Read Review", "Details", "Posts", new { id = ViewBag.CommentedPost.Id }, null)
                 </p>

@@ -79,6 +79,14 @@ namespace Music_Society_Forum.Controllers
                                 .Where(p => p.Id == commentedPost.Id)
                                 .Select(p => p.Author)
                                 .FirstOrDefault();
+            ViewBag.Next = db.Comments
+                                .Where(c => c.Date > comment.Date)
+                                .OrderBy(c => c.Date)
+                                .FirstOrDefault();
+            ViewBag.Previous = db.Comments
+                                .Where(c => c.Date < comment.Date)
+                                .OrderByDescending(c => c.Date)
+                                .FirstOrDefault();
             ViewBag.IsAdmin = isAdmin();
             ViewBag.IsOwner = isCommentOwner(comment);
             return View(comment);

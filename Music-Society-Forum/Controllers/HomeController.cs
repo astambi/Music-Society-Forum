@@ -35,7 +35,7 @@ namespace Music_Society_Forum.Controllers
                         .ToList();         
             ViewBag.EditorPosts = db.Posts
                         .Include(p => p.Author)
-                        .Where(p => p.Author.UserName == "gould@gmail.com")
+                        .Where(p => p.Author.UserName.Contains("editor@"))
                         // TODO users in role "Editor"
                         .OrderByDescending(p => p.Date)
                         .Take(5)

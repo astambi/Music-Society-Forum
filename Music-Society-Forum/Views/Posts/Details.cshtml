@@ -6,8 +6,8 @@
 }
 
 <section class="row">  
-    <article class="post col-md-8">
-        
+    <article class="post col-md-8">        
+
         @* Post Details *@
         <h2 class="post-title">
             @Html.DisplayFor(model => model.Title)
@@ -56,6 +56,24 @@
 
     @* Post Comments *@
     <aside class="comments-sidebar col-md-3">
+        
+        @* Previous/ Next Links *@
+        <h4 class="pagination">
+            @if (ViewBag.Previous != null)
+            {
+                @Html.ActionLink("<< Previous", "Details", new { id = ViewBag.Previous.Id })
+                if (ViewBag.Next != null)
+                {
+                    @: |
+                }
+            }
+            @if (ViewBag.Next != null)
+            {
+                @Html.ActionLink("Next >>", "Details", new { id = ViewBag.Next.Id })
+            }
+        </h4>
+        <hr />
+
         <h4 class="comments-header">
             Comments (@ViewBag.Comments.Count)
         </h4>

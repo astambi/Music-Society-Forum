@@ -72,6 +72,14 @@ namespace Music_Society_Forum.Controllers
                             .Where(c => c.Post.Id == id)
                             .OrderByDescending(c => c.Date)
                             .ToList();
+            ViewBag.Next = db.Posts
+                            .Where(p => p.Date > post.Date)
+                            .OrderBy(p => p.Date)
+                            .FirstOrDefault();
+            ViewBag.Previous = db.Posts
+                            .Where(p => p.Date < post.Date)
+                            .OrderByDescending(p => p.Date)
+                            .FirstOrDefault();
             //ViewBag.Comments = post.Comments
             //                .OrderByDescending(p => p.Date)
             //                .ToList();
