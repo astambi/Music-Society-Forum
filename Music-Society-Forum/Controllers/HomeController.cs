@@ -47,7 +47,7 @@ namespace Music_Society_Forum.Controllers
 
         public ActionResult About()
         {
-            //ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Project Requirements";
             return View();
         }        
     }

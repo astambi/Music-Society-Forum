@@ -26,15 +26,50 @@ namespace Music_Society_Forum.Controllers
         }
 
         // GET: Comments
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder)
         {
-            var commentsWithAuthorsPosts = db.Comments
-                                .Include(c => c.Author)
-                                .Include(c => c.Post)
-                                .OrderByDescending(c => c.Date)
-                                .ToList();
+            var comments = db.Comments
+                            .Include(c => c.Author)
+                            .Include(c => c.Post);
             ViewBag.IsAdmin = isAdmin();
-            return View(commentsWithAuthorsPosts);
+
+            // Sorting Functionality with Column Sort Links, default -> by Date DESC
+            ViewBag.TitleSortParam = sortOrder == "title_asc" ? "title_desc" : "title_asc";
+            ViewBag.DateSortParam = sortOrder == "date_asc" ? "date_desc" : "date_asc";
+            ViewBag.AuthorSortParam = sortOrder == "author_asc" ? "author_desc" : "author_asc";
+            comments = GetSortedComments(sortOrder, comments);
+
+            return View(comments.ToList());
+        }
+
+        private static IQueryable<Comment> GetSortedComments(string sortOrder, IQueryable<Comment> comments)
+        {
+            switch (sortOrder)
+            {
+                case "title_desc":
+                    comments = comments.OrderByDescending(c => c.Post.Title);
+                    break;
+                case "title_asc":
+                    comments = comments.OrderBy(c => c.Post.Title);
+                    break;
+                case "date_asc":
+                    comments = comments.OrderBy(c => c.Date);
+                    break;
+                case "date_desc":
+                    comments = comments.OrderByDescending(c => c.Date);
+                    break;
+                case "author_desc":
+                    comments = comments.OrderByDescending(c => c.Author.FullName);
+                    break;
+                case "author_asc":
+                    comments = comments.OrderBy(c => c.Author.FullName);
+                    break;
+                default:
+                    comments = comments.OrderByDescending(c => c.Date);
+                    break;
+            }
+
+            return comments;
         }
 
         // GET: Comments/Details/5

@@ -13,12 +13,20 @@
 </p>
 <table class="table">
     <tr>
-        <th>@Html.DisplayNameFor(model => model.Title)</th>
+        @* Column Sorting Links *@
+        <th>@Html.ActionLink("Title", "Index", new { sortOrder = ViewBag.TitleSortParam })</th>
+        <th>Content</th>
+        <th>@Html.ActionLink("Date", "Index", new { sortOrder = ViewBag.DateSortParam })</th>
+        <th>@Html.ActionLink("Author", "Index", new { sortOrder = ViewBag.AuthorSortParam })</th>
+        <th>@Html.ActionLink("Comments", "Index", new { sortOrder = ViewBag.CommentsSortParam })</th>
+        <th>Actions</th>
+
+        @*<th>@Html.DisplayNameFor(model => model.Title)</th>
         <th>Content</th>
         <th>@Html.DisplayNameFor(model => model.Date)</th>
         <th>@Html.DisplayNameFor(model => model.Author)</th>
         <th>@Html.DisplayNameFor(model => model.Comments)</th>
-        <th>Actions</th>
+        <th>Actions</th>*@
     </tr>
 
 @foreach (var post in Model) {

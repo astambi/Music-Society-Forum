@@ -12,11 +12,18 @@
 </p>
 <table class="table">
     <tr>
-        <th>On</th>
+        @* Column Sorting Links *@
+        <th>@Html.ActionLink("On", "Index", new { sortOrder = ViewBag.TitleSortParam })</th>
+        <th>Comment</th>
+        <th>@Html.ActionLink("Date", "Index", new { sortOrder = ViewBag.DateSortParam })</th>
+        <th>@Html.ActionLink("Author", "Index", new { sortOrder = ViewBag.AuthorSortParam })</th>
+        <th>Actions</th>
+
+        @*<th>On</th>
         <th>Comment</th>
         <th>@Html.DisplayNameFor(model => model.Date)</th>    
         <th>@Html.DisplayNameFor(model => model.Author)</th>
-        <th>Actions</th>
+        <th>Actions</th>*@
     </tr>
 
 @foreach (var comment in Model) {

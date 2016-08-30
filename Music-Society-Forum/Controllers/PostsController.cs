@@ -26,14 +26,57 @@ namespace Music_Society_Forum.Controllers
         }
 
         // GET: Posts
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder)
         {
-            var postsWithAuthors = db.Posts
-                            .Include(p => p.Author)
-                            .OrderByDescending(p => p.Date)
-                            .ToList();           
+            var posts = db.Posts
+                        .Include(p => p.Author)
+                        .Include(p => p.Comments);
             ViewBag.IsAdmin = isAdmin();
-            return View(postsWithAuthors);
+
+            // Sorting Functionality with Column Sort Links, default -> by Date DESC
+            ViewBag.TitleSortParam = sortOrder == "title_asc" ? "title_desc" : "title_asc";
+            ViewBag.DateSortParam = sortOrder == "date_asc" ? "date_desc" : "date_asc";
+            ViewBag.AuthorSortParam = sortOrder == "author_asc" ? "author_desc" : "author_asc";
+            ViewBag.CommentsSortParam = sortOrder == "comments_asc" ? "comments_desc" : "comments_asc";
+            posts = GetSortedPosts(sortOrder, posts);
+
+            return View(posts.ToList());
+        }
+
+        private static IQueryable<Post> GetSortedPosts(string sortOrder, IQueryable<Post> posts)
+        {
+            switch (sortOrder)
+            {
+                case "title_desc":
+                    posts = posts.OrderByDescending(p => p.Title);
+                    break;
+                case "title_asc":
+                    posts = posts.OrderBy(p => p.Title);
+                    break;
+                case "date_asc":
+                    posts = posts.OrderBy(p => p.Date);
+                    break;
+                case "date_desc":
+                    posts = posts.OrderByDescending(p => p.Date);
+                    break;
+                case "author_desc":
+                    posts = posts.OrderByDescending(p => p.Author.FullName);
+                    break;
+                case "author_asc":
+                    posts = posts.OrderBy(p => p.Author.FullName);
+                    break;
+                case "comments_desc":
+                    posts = posts.OrderByDescending(p => p.Comments.Count());
+                    break;
+                case "comments_asc":
+                    posts = posts.OrderBy(p => p.Comments.Count());
+                    break;
+                default:
+                    posts = posts.OrderByDescending(p => p.Date);
+                    break;
+            }
+
+            return posts;
         }
 
         // GET: Posts/Details/5
