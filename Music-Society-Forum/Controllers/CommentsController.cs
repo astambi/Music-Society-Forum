@@ -12,17 +12,8 @@ using Music_Society_Forum.Extensions;
 namespace Music_Society_Forum.Controllers
 {
     [ValidateInput(false)]
-    public class CommentsController : Controller
-    {
-        private ApplicationDbContext db = new ApplicationDbContext();
-
-        public bool isAdmin()
-        {
-            bool isAdmin = User.Identity.IsAuthenticated &&
-                           User.IsInRole("Administrators");
-            return isAdmin;
-        }
-
+    public class CommentsController : BaseController
+    {      
         public bool isCommentOwner(Comment comment)
         {
             if (!User.Identity.IsAuthenticated || comment.Author_Id == null)
@@ -109,12 +100,8 @@ namespace Music_Society_Forum.Controllers
                 this.AddNotification("The requested article does not exist", NotificationType.INFO);
                 return RedirectToAction("Index", "Posts");
             }
-
-            // TODO Create comment !!!
-
-            Comment comment = new Comment();
-            comment.Post_Id = post.Id;
-            return View(comment);
+            
+            return View();
         }
 
         // POST: Comments/Create/5
@@ -129,8 +116,9 @@ namespace Music_Society_Forum.Controllers
             {
                 // TODO Create comment !!!
 
-                comment.Author = db.Users
+                comment.Author_Id = db.Users
                                 .Where(u => u.UserName == User.Identity.Name)
+                                .Select(u => u.Id)
                                 .FirstOrDefault();
                 db.Comments.Add(comment);
                 db.SaveChanges();
@@ -138,7 +126,7 @@ namespace Music_Society_Forum.Controllers
                 return RedirectToAction("Index");
             }
             else
-            {               
+            {
                 this.AddNotification("Unable to create comment", NotificationType.ERROR);
             }
             return View(comment);

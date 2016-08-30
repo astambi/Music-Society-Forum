@@ -8,10 +8,8 @@ using System.Data.Entity;
 
 namespace Music_Society_Forum.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-
         public ActionResult Index()
         {
             var posts = db.Posts
@@ -40,6 +38,10 @@ namespace Music_Society_Forum.Controllers
                         .OrderByDescending(p => p.Date)
                         .Take(5)
                         .ToList();
+            ViewBag.Recommended = db.Posts
+                        .Where(p => p.IsRecommended)
+                        .OrderByDescending(p => p.Date)
+                        .Take(5).ToList();
             return View(posts.ToList());
         }
 

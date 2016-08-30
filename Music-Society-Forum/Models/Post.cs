@@ -14,6 +14,7 @@ namespace Music_Society_Forum.Models
         {
             this.Date = DateTime.Now;
             this.Comments = new HashSet<Comment>(); // added Comments in Post class
+            this.IsRecommended = false;
         }
 
         [Key]
@@ -38,5 +39,6 @@ namespace Music_Society_Forum.Models
         // added Comments in Post class
         public virtual ICollection<Comment> Comments { get; set; }
 
+        public bool IsRecommended { get; set; }
     }
 }

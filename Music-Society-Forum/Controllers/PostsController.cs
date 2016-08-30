@@ -12,17 +12,8 @@ using Music_Society_Forum.Extensions;
 namespace Music_Society_Forum.Controllers
 {
     [ValidateInput(false)]
-    public class PostsController : Controller
-    {
-        private ApplicationDbContext db = new ApplicationDbContext();
-
-        public bool isAdmin()
-        {
-            bool isAdmin = User.Identity.IsAuthenticated && 
-                           User.IsInRole("Administrators");
-            return isAdmin;
-        }
-
+    public class PostsController : BaseController
+    {       
         public bool isPostOwner(Post post)
         {
             if (!User.Identity.IsAuthenticated || post.Author_Id == null)
@@ -153,17 +144,15 @@ namespace Music_Society_Forum.Controllers
                 this.AddNotification("The article was created by another user", NotificationType.INFO);
                 return RedirectToAction("My");
             }
-            var authors = db.Users
+            var authors = new List<ApplicationUser>() { post.Author };
+            if (isAdmin())
+            {
+                authors = db.Users
                         .OrderBy(u => u.FullName)
                         .ThenBy(u => u.UserName)
                         .ToList();
-            ViewBag.Authors = authors;
-            ViewBag.PostAuthor = db.Posts
-                        .Where(p => p.Id == id)
-                        .Select(u => u.Author)
-                        .FirstOrDefault();
-            ViewBag.IsAdmin = isAdmin();
-            ViewBag.IsOwner = isPostOwner(post);
+            }            
+            ViewBag.Authors = authors;            
             return View(post);
         }
 
@@ -182,6 +171,8 @@ namespace Music_Society_Forum.Controllers
                 this.AddNotification("Modified article", NotificationType.SUCCESS);
                 if (isPostOwner(post))
                     return RedirectToAction("My");
+                if (isAdmin())
+                    return RedirectToAction("Index", "Admin");
                 return RedirectToAction("Index");
             }
             return View(post);
@@ -236,6 +227,8 @@ namespace Music_Society_Forum.Controllers
             db.Posts.Remove(post);
             db.SaveChanges();
             this.AddNotification("Deleted article", NotificationType.SUCCESS);
+            if (isAdmin())
+                return RedirectToAction("Index", "Admin");
             return RedirectToAction("Index");
         }
 

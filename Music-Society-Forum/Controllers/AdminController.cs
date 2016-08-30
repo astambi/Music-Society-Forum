@@ -5,50 +5,107 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
+using Music_Society_Forum.Extensions;
 
 namespace Music_Society_Forum.Controllers
 {
     [ValidateInput(false)]
     [Authorize(Roles = "Administrators")]
-    public class AdminController : Controller
+    public class AdminController : BaseController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-
         // GET: Admin
         public ActionResult Index()
         {
-            var postsWithAuthors = db.Posts
-                                .Include(p => p.Author)
-                                .OrderByDescending(p => p.Date)
-                                .Where(p => p.Date.Month >= DateTime.Now.Month)
-                                .ToList();
-            var commentsWithAuthorsPosts = db.Comments
-                                .Include(c => c.Author)
-                                .Include(c => c.Post)
-                                .OrderByDescending(c => c.Date)
-                                .Where(c => c.Date.Month >= DateTime.Now.Month)
-                                .ToList();
-            ViewBag.Comments = commentsWithAuthorsPosts;
-            return View(postsWithAuthors);
+            var newPosts = db.Posts
+                            .Include(p => p.Author)
+                            .OrderByDescending(p => p.Date)
+                            .Take(5)
+                            .ToList();
+            ViewBag.RecommendedPosts = db.Posts
+                            .Include(c => c.Author)
+                            .Where(p => p.IsRecommended)
+                            .OrderByDescending(c => c.Date)
+                            .ToList();
+            ViewBag.PostsCount = db.Posts.Count();
+            ViewBag.CommentsCount = db.Comments.Count();
+            ViewBag.AnonimousPosts = db.Posts
+                            .Where(p => p.Author == null)
+                            .ToList();
+            ViewBag.NewComments = db.Comments
+                            .Include(c => c.Author)
+                            .Include(c => c.Post)
+                            .OrderByDescending(c => c.Date)                            
+                            .Take(5)
+                            .ToList();
+            return View(newPosts);
         }
 
+        // GET: Admin/Posts
         public ActionResult Posts()
         {
-            var postsWithAuthors = db.Posts
-                                .Include(p => p.Author)
-                                .OrderByDescending(p => p.Date)
-                                .ToList();
-            return View(postsWithAuthors);
+            var posts = db.Posts
+                        .Include(p => p.Author)
+                        .OrderByDescending(p => p.Date)
+                        .ToList();
+            return View(posts);
         }
 
+        // GET: Admin/ Comments
         public ActionResult Comments()
         {
-            var commentsWithAuthorsPosts = db.Comments
-                                .Include(c => c.Author)
-                                .Include(c => c.Post)
-                                .OrderByDescending(c => c.Date)
-                                .ToList();
-            return View(commentsWithAuthorsPosts);
-        }        
+            var comments = db.Comments
+                        .Include(c => c.Author)
+                        .Include(c => c.Post)
+                        .OrderByDescending(c => c.Date)
+                        .ToList();
+            return View(comments);
+        }
+
+        // GET: Admin/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                this.AddNotification("Please select an article", NotificationType.INFO);
+                return RedirectToAction("Index");
+            }
+            Post post = db.Posts.Find(id);
+            if (post == null)
+            {
+                //return HttpNotFound();
+                this.AddNotification("The requested article does not exist", NotificationType.INFO);
+                return RedirectToAction("Index");
+            }
+            var authors = new List<ApplicationUser>();
+            if (post.Author != null)                
+                authors.Add(post.Author);
+            if (isAdmin())
+            {
+                var allUsers = db.Users
+                            .OrderBy(u => u.FullName)
+                            .ThenBy(u => u.UserName);
+                authors.AddRange(allUsers);
+            }            
+            ViewBag.Authors = authors;
+            return View(post);
+        }
+
+        // POST: Posts/Edit/5        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "Id, Title, Body, Date, Author_Id, IsRecommended")] Post post)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(post).State = EntityState.Modified;
+                db.SaveChanges();
+                this.AddNotification("Modified article", NotificationType.SUCCESS);
+                return RedirectToAction("Index");
+            }
+            this.AddNotification("Could not modify article", NotificationType.ERROR);
+            return View(post);
+        }
+        
     }
 }
