@@ -129,4 +129,9 @@ textarea {
     border-radius: 10px;
 }
 
-
+.prev-next {
+    background-color: cadetblue;
+    margin: -10px 0px 0px 0px;
+    padding: 10px 15px;
+    border-radius: 10px;
+}

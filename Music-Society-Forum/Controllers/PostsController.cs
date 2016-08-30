@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Music_Society_Forum.Models;
 using Music_Society_Forum.Extensions;
+using PagedList;
 
 namespace Music_Society_Forum.Controllers
 {
@@ -26,18 +27,27 @@ namespace Music_Society_Forum.Controllers
         }
 
         // GET: Posts
-        public ActionResult Index(string sortOrder, string searchString)
-        {
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        {            
             var posts = db.Posts
                         .Include(p => p.Author)
                         .Include(p => p.Comments);
-            ViewBag.IsAdmin = isAdmin();
 
+            ViewBag.IsAdmin = isAdmin();
+            ViewBag.CurrentSort = sortOrder;    // keep the sort order the same while paging
+                                             
             // Sorting Functionality with Column Sort Links, default -> by Date DESC
             ViewBag.TitleSortParam = sortOrder == "title_asc" ? "title_desc" : "title_asc";
             ViewBag.DateSortParam = sortOrder == "date_asc" ? "date_desc" : "date_asc";
             ViewBag.AuthorSortParam = sortOrder == "author_asc" ? "author_desc" : "author_asc";
             ViewBag.CommentsSortParam = sortOrder == "comments_asc" ? "comments_desc" : "comments_asc";
+
+            // Paging Links
+            if (searchString != null) 
+                page = 1;
+            else
+                searchString = currentFilter; 
+            ViewBag.CurrentFilter = searchString; // keep the search string the same & provide paging 
 
             // Search Functionality: in Post Title / Post Body / Author
             if (!String.IsNullOrEmpty(searchString))
@@ -47,9 +57,14 @@ namespace Music_Society_Forum.Controllers
                                          p.Author.FullName.Contains(searchString));
             }
 
+            // Sorting 
             posts = GetSortedPosts(sortOrder, posts);
+            //return View(posts.ToList());
 
-            return View(posts.ToList());
+            // Paging Links
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(posts.ToPagedList(pageNumber, pageSize));
         }
 
         private static IQueryable<Post> GetSortedPosts(string sortOrder, IQueryable<Post> posts)

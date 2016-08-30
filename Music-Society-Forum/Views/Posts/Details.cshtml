@@ -58,20 +58,20 @@
     <aside class="comments-sidebar col-md-3">
         
         @* Previous/ Next Links *@
-        <h4 class="pagination">
-            @if (ViewBag.Previous != null)
-            {
-                @Html.ActionLink("<< Previous", "Details", new { id = ViewBag.Previous.Id })
-                if (ViewBag.Next != null)
+        <ul class="pagination prev-next">
+            <li class="previous icon-prev">
+                @if (ViewBag.Previous != null)
                 {
-                    @: |
+                    @Html.ActionLink("<< Previous", "Details", new { id = ViewBag.Previous.Id })                    
                 }
-            }
-            @if (ViewBag.Next != null)
-            {
-                @Html.ActionLink("Next >>", "Details", new { id = ViewBag.Next.Id })
-            }
-        </h4>
+            </li> 
+            <li class="next icon-next">
+                @if (ViewBag.Next != null)
+                {
+                    @Html.ActionLink("Next >>", "Details", new { id = ViewBag.Next.Id })
+                }
+            </li>            
+        </ul>
         <hr />
 
         <h4 class="comments-header">

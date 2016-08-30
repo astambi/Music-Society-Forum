@@ -1,37 +1,41 @@
-﻿@model IEnumerable<Music_Society_Forum.Models.Post>
+﻿@*@model IEnumerable<Music_Society_Forum.Models.Post>*@
     
+@* Paging Links References *@
+@model PagedList.IPagedList<Music_Society_Forum.Models.Post> 
 @using Music_Society_Forum.Classes;
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "Reviews";
 }
 
-<h2 class="view-header">All Reviews</h2>
+<h2 class="view-header">@ViewBag.Title (@Model.Count())</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
 
 @* Search *@
-@using (Html.BeginForm())
+@using (Html.BeginForm("Index", "Posts", FormMethod.Get))
 {
     <p class="search">
-        @Html.TextBox("searchString")
+        @Html.TextBox("searchString", (string)ViewBag.CurrentFilter)
         <input type="submit" value="Search" />
     </p>
 }
 
 <table class="table">
     <tr>
-        @* Column Sorting Links *@
-        <th>@Html.ActionLink("Title", "Index", new { sortOrder = ViewBag.TitleSortParam })</th>
+        @* Column Sorting Links & Paging Links *@
+        <th>@Html.ActionLink("Title", "Index", new { sortOrder = ViewBag.TitleSortParam, currentFilter = ViewBag.CurrentFilter })</th>
         <th>Content</th>
-        <th>@Html.ActionLink("Date", "Index", new { sortOrder = ViewBag.DateSortParam })</th>
-        <th>@Html.ActionLink("Author", "Index", new { sortOrder = ViewBag.AuthorSortParam })</th>
-        <th>@Html.ActionLink("Comments", "Index", new { sortOrder = ViewBag.CommentsSortParam })</th>
+        <th>@Html.ActionLink("Date", "Index", new { sortOrder = ViewBag.DateSortParam, currentFilter = ViewBag.CurrentFilter })</th>
+        <th>@Html.ActionLink("Author", "Index", new { sortOrder = ViewBag.AuthorSortParam, currentFilter = ViewBag.CurrentFilter })</th>
+        <th>@Html.ActionLink("Comments", "Index", new { sortOrder = ViewBag.CommentsSortParam, currentFilter = ViewBag.CurrentFilter })</th>
         <th>Actions</th>
 
-        @* Without Sorting Links *@
+        @* Without Sorting & Paging Links *@
         @*<th>@Html.DisplayNameFor(model => model.Title)</th>
         <th>Content</th>
         <th>@Html.DisplayNameFor(model => model.Date)</th>
@@ -96,3 +100,10 @@
 }
 
 </table>
+
+@* Paging Links *@
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

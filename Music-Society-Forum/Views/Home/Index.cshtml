@@ -4,12 +4,11 @@
 
 @using Music_Society_Forum.Models;
 @using Music_Society_Forum.Classes;
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
-@model List<Post>
-
-@*<div class="jumbotron">
-    <h1>The Wagner Society</h1>
-</div>*@
+@*@model List<Post>*@
+@model PagedList.IPagedList<Music_Society_Forum.Models.Post> 
 
 <section class="row">     
 
@@ -37,19 +36,26 @@
                 }
             </div>
             @*<div class="post-body">@Html.Raw(post.Body)</div>*@
-            <div class="post-body">@*@Html.Raw(Utils.CutTextHomePage(post.Body).Replace("\r\n", "<br />"))*@</div>
             <div class="post-body">@Html.Raw(Utils.CutTextHomePage(post.Body))</div>
             <div class="post-links">@Html.ActionLink("Read Review", "Details", "Posts", new { id = @post.Id }, null)</div>
         }
+
+        @* Paging Links *@
+        <br />
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("Index",
+            new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
     </article>
 
     <aside class="sidebar col-md-3"> 
 
         @* Search *@
-        @using (Html.BeginForm())
+        @using (Html.BeginForm("Index", "Home", FormMethod.Get))
         {
             <p class="search">
-                @Html.TextBox("searchString")
+                @Html.TextBox("searchString", (string)ViewBag.CurrentFilter)
                 <input type="submit" value="Search" />
             </p>
         }

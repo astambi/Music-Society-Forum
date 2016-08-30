@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Music_Society_Forum.Models;
 using Music_Society_Forum.Extensions;
+using PagedList;
 
 namespace Music_Society_Forum.Controllers
 {
@@ -26,28 +27,43 @@ namespace Music_Society_Forum.Controllers
         }
 
         // GET: Comments
-        public ActionResult Index(string sortOrder, string searchString)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             var comments = db.Comments
                             .Include(c => c.Author)
                             .Include(c => c.Post);
+
             ViewBag.IsAdmin = isAdmin();
+            ViewBag.CurrentSort = sortOrder;    // keep the sort order the same while paging
 
             // Sorting Functionality with Column Sort Links, default -> by Date DESC
             ViewBag.TitleSortParam = sortOrder == "title_asc" ? "title_desc" : "title_asc";
             ViewBag.DateSortParam = sortOrder == "date_asc" ? "date_desc" : "date_asc";
             ViewBag.AuthorSortParam = sortOrder == "author_asc" ? "author_desc" : "author_asc";
 
+            // Paging Links
+            if (searchString != null)
+                page = 1;
+            else
+                searchString = currentFilter;
+            ViewBag.CurrentFilter = searchString; // keep the search string the same & provide paging 
+
             // Search Functionality: in Post Title / Comment Text / Author
             if (!String.IsNullOrEmpty(searchString))
             {
-                comments = comments.Where(c => c.Post.Title.Contains(searchString) ||
-                                               c.Text.Contains(searchString) ||
-                                               c.Author.FullName.Contains(searchString));
+                comments = comments
+                    .Where(c => c.Post.Title.Contains(searchString) ||
+                                c.Text.Contains(searchString) ||
+                                c.Author.FullName.Contains(searchString));
             }
+            // Sorting
             comments = GetSortedComments(sortOrder, comments);
+            //return View(comments.ToList());
 
-            return View(comments.ToList());
+            // Paging Links
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(comments.ToPagedList(pageNumber, pageSize));
         }
 
         private static IQueryable<Comment> GetSortedComments(string sortOrder, IQueryable<Comment> comments)
