@@ -10,12 +10,10 @@ namespace Music_Society_Forum.Controllers
 {
     public class HomeController : BaseController
     {
-        public ActionResult Index()
+        public ActionResult Index(string searchString)
         {
             var posts = db.Posts
-                        .Include(p => p.Author)
-                        .OrderByDescending(p => p.Date)
-                        .Take(10);
+                        .Include(p => p.Author);            
             ViewBag.RecentPosts = posts
                         .Take(5)
                         .ToList();
@@ -42,6 +40,16 @@ namespace Music_Society_Forum.Controllers
                         .Where(p => p.IsRecommended)
                         .OrderByDescending(p => p.Date)
                         .Take(5).ToList();
+
+            // Search Functionality: in Post Title / Post Body / Author
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                posts = posts.Where(p => p.Title.Contains(searchString) ||
+                                         p.Body.Contains(searchString) ||
+                                         p.Author.FullName.Contains(searchString));
+            }
+            posts = posts.OrderByDescending(p => p.Date).Take(5);
+
             return View(posts.ToList());
         }
 

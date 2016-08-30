@@ -122,3 +122,11 @@ textarea {
 .alert {
     margin-top: 10px;
 }
+
+.search {
+    background-color: cadetblue;
+    padding: 10px 15px;
+    border-radius: 10px;
+}
+
+

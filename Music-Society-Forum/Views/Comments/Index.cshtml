@@ -10,6 +10,16 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+@* Search *@
+@using (Html.BeginForm())
+{
+    <p class="search">
+        @Html.TextBox("searchString")
+        <input type="submit" value="Search" />
+    </p>
+}
+
 <table class="table">
     <tr>
         @* Column Sorting Links *@

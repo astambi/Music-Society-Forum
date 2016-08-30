@@ -11,6 +11,16 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+@* Search *@
+@using (Html.BeginForm())
+{
+    <p class="search">
+        @Html.TextBox("searchString")
+        <input type="submit" value="Search" />
+    </p>
+}
+
 <table class="table">
     <tr>
         @* Column Sorting Links *@
@@ -21,6 +31,7 @@
         <th>@Html.ActionLink("Comments", "Index", new { sortOrder = ViewBag.CommentsSortParam })</th>
         <th>Actions</th>
 
+        @* Without Sorting Links *@
         @*<th>@Html.DisplayNameFor(model => model.Title)</th>
         <th>Content</th>
         <th>@Html.DisplayNameFor(model => model.Date)</th>

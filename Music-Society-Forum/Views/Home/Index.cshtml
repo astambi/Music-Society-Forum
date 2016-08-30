@@ -45,6 +45,16 @@
 
     <aside class="sidebar col-md-3"> 
 
+        @* Search *@
+        @using (Html.BeginForm())
+        {
+            <p class="search">
+                @Html.TextBox("searchString")
+                <input type="submit" value="Search" />
+            </p>
+        }
+        <hr />
+
         @*From Our Editors*@
         <h4 class="sidebar-header">From Our Editors</h4>
         <div class="sidebar-block">

@@ -26,7 +26,7 @@ namespace Music_Society_Forum.Controllers
         }
 
         // GET: Comments
-        public ActionResult Index(string sortOrder)
+        public ActionResult Index(string sortOrder, string searchString)
         {
             var comments = db.Comments
                             .Include(c => c.Author)
@@ -37,6 +37,14 @@ namespace Music_Society_Forum.Controllers
             ViewBag.TitleSortParam = sortOrder == "title_asc" ? "title_desc" : "title_asc";
             ViewBag.DateSortParam = sortOrder == "date_asc" ? "date_desc" : "date_asc";
             ViewBag.AuthorSortParam = sortOrder == "author_asc" ? "author_desc" : "author_asc";
+
+            // Search Functionality: in Post Title / Comment Text / Author
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                comments = comments.Where(c => c.Post.Title.Contains(searchString) ||
+                                               c.Text.Contains(searchString) ||
+                                               c.Author.FullName.Contains(searchString));
+            }
             comments = GetSortedComments(sortOrder, comments);
 
             return View(comments.ToList());
