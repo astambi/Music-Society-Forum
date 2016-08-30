@@ -27,39 +27,10 @@ namespace Music_Society_Forum.Controllers
                             .OrderByDescending(c => c.Date)
                             .ToList();
             ViewBag.PostsCount = db.Posts.Count();
-            ViewBag.CommentsCount = db.Comments.Count();
-            ViewBag.AnonimousPosts = db.Posts
-                            .Where(p => p.Author == null)
-                            .ToList();
-            ViewBag.NewComments = db.Comments
-                            .Include(c => c.Author)
-                            .Include(c => c.Post)
-                            .OrderByDescending(c => c.Date)                            
-                            .Take(5)
-                            .ToList();
+            ViewBag.CommentsCount = db.Comments.Count();           
+            
             return View(newPosts);
-        }
-
-        // GET: Admin/Posts
-        public ActionResult Posts()
-        {
-            var posts = db.Posts
-                        .Include(p => p.Author)
-                        .OrderByDescending(p => p.Date)
-                        .ToList();
-            return View(posts);
-        }
-
-        // GET: Admin/ Comments
-        public ActionResult Comments()
-        {
-            var comments = db.Comments
-                        .Include(c => c.Author)
-                        .Include(c => c.Post)
-                        .OrderByDescending(c => c.Date)
-                        .ToList();
-            return View(comments);
-        }
+        }        
 
         // GET: Admin/Edit/5
         public ActionResult Edit(int? id)

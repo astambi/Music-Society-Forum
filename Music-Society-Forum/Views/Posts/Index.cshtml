@@ -11,7 +11,6 @@
 }
 
 <h2 class="view-header">@ViewBag.Title (@Model.Count())</h2>
-
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
@@ -33,15 +32,11 @@
         <th>@Html.ActionLink("Date", "Index", new { sortOrder = ViewBag.DateSortParam, currentFilter = ViewBag.CurrentFilter })</th>
         <th>@Html.ActionLink("Author", "Index", new { sortOrder = ViewBag.AuthorSortParam, currentFilter = ViewBag.CurrentFilter })</th>
         <th>@Html.ActionLink("Comments", "Index", new { sortOrder = ViewBag.CommentsSortParam, currentFilter = ViewBag.CurrentFilter })</th>
-        <th>Actions</th>
-
-        @* Without Sorting & Paging Links *@
-        @*<th>@Html.DisplayNameFor(model => model.Title)</th>
-        <th>Content</th>
-        <th>@Html.DisplayNameFor(model => model.Date)</th>
-        <th>@Html.DisplayNameFor(model => model.Author)</th>
-        <th>@Html.DisplayNameFor(model => model.Comments)</th>
-        <th>Actions</th>*@
+        @if (ViewBag.IsAdmin)
+        {
+            <th>Recommended</th>
+        }
+        <th>Actions</th> 
     </tr>
 
 @foreach (var post in Model) {
@@ -76,6 +71,12 @@
         <td>
             @post.Comments.Count
         </td>
+        @if (ViewBag.IsAdmin)
+        {
+            <td>
+                @Html.DisplayFor(modelItem => post.IsRecommended)
+            </td>
+        }        
         <td>
             @Html.ActionLink("Details", "Details", new { id = post.Id })
 
@@ -83,7 +84,7 @@
                 post Owners can edit their own posts, and delete posts without comments. *@
             @if (ViewBag.IsAdmin)
             {
-                @: | @Html.ActionLink("Edit", "Edit", new { id = post.Id })
+                @: | @Html.ActionLink("Edit", "../Admin/Edit", new { id = post.Id })
                 @: | @Html.ActionLink("Delete", "Delete", new { id = post.Id })
             }
             else if (post.Author_Id != null &&
@@ -102,7 +103,7 @@
 </table>
 
 @* Paging Links *@
-<br />
+<hr />
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
 @Html.PagedListPager(Model, page => Url.Action("Index",
