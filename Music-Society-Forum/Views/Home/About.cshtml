@@ -8,7 +8,7 @@
     course at the Software University.
 </div> 
 
-<h3>@ViewBag.Message</h3>
+<h3 class="comment-title">@ViewBag.Message</h3>
 <div>
     <p>Design and implement a simple Web-based application, e.g. blog / forum.</p>
     <p><strong>Technology:</strong> C# + ASP.NET MVC + Entity Framework + SQL Server + HTML + CSS.</p>
@@ -38,65 +38,72 @@
     <li>User registration, login, view content, create content;</li>
 </ul>
 
-<h3 class="comment-title">Steps completed so far:</h3>
-<ul>
-    <li>Created an ASP.NET MVC Web application</li>
-    <li>Simplified the user registration and login</li>
-    <li>Added a mandatory full name property for the users</li>
-    <li>Created a new Post class for the forum posts</li>
-    <li>Scaffolded CRUD oprations for the posts</li>
-    <li>Enabled authomatic migrations of the database and added some seed to populate the db</li>
-    <li>Implemented the listing of posts on the home page & references to post details</li>
-    <li>Modified the Posts index & details views and the corresponding controller actions</li>
-    <li>Added author data to Posts index & details views</li>
-    <li>Modified the create-post functionality: current date & time => post creation date, current user => post author</li>
-    <li>Modified the edit-post funcitonality to allow date modifications and swapping of users (from a dropdown list of registered users, sorted)</li>
-    <li>Allowed html input in new & edited posts</li>
-    <li>Added date/time picker popup calendar in post-edit view (working as expecting only for Firefox)</li>
-    <li>Solved the date/time picker 'invalid date' error msgs in Chrome & Opera </li>
-    <li>Modified visibility of forbidden links: restricted visibility of create-links to authenticated users only</li>
-    <li>Modified visibility of forbidden links: restricted visibility of delete-links in all views to admins only</li>
-    <li>Modified visibility of forbidden links: restricted visibility of edit-links in all views to admins and post owners</li>
-    <li>Modified the edit-post funcitonality: only admins can edit all properties in a post, post owners can only edit the title, body and date of a post, but cannot transfer ownership of the post to another user, e.g. cannot modify the post author.</li>
-    <li>Updated the layout of the home page & sidebar</li>
-    <li>Added a new view holding the current user's posts</li>
-    <li>Added bootstrap notifications</li>
-    <li>Added a new Comment class and scaffolded CRUD operations</li>
-    <li>Updated the layout of the post-details view</li>
-    <li>Added comments to My Texts view</li>
-    <li>Updated the styling of all views</li>
-    <li>Updated the content and visibility of forbidden links on My Texts</li>
-    <li>Updated the content and visibility of forbidden links on Comments view</li>
-    <li>Updated the content and layout of Comment-details view</li>
-    <li>Updated the layout of the home page once again</li>
-    <li>Restricted deletion of comments to admins only</li>
-    <li>Modified the create-comment & edit-comment functionality: guest users cannot create or edit comments</li>
-    <li>Modified the delete-comment funcitonality: only admins can delete comments
-    <li>Modified the edit-comment funcitonality: only admins and [TODO commment owners] can edit comments
-    <li>Added comment stats, details & actions to post-delete views</li>
-    <li>Added comments count in views</li>
-    <li>Updated the notification messages</li>
-    <li>Allowed post owners to delete comments & posts without comments, posts with comments can be deleted by admins only</li>
-    <li>Reworked the forbidden / allowed links</li>
-    <li>Started the admin panel</li>
-    <li>Updated the home page sidebar with posts from the editors, most commented & recently commented posts.</li>
-    <li>Added previous/ next links on posts-details & comments-details views</li>
-    <li>Added a new post property IsRecommended: edited by admin and used to show recommended posts on the home page</li>
-    <li>Modified the admin views</li>
-    <li>Added sorting functionality with column sorting links for posts and comments</li>
-    <li>Added search box in home page, posts & comments</li>
-    <li>Added paging links on home page, posts & comments</li>
-    <li>Updated views for My texts & Admin panels</li>
-    <li>Updated links</li>
-    <li>Modified the search box</li>
-</ul>
 
-<h3 class="comment-title">TODO:</h3>
-<ul>
-    <li>Create/ edit comments from the web app</li>
-    <li>Tags/ categories to publications</li>
-    <li>Admin panel</li>
-</ul>
+<div>
+    <h3 class="comment-title">Implemented Functionality</h3>
+
+    <p>
+        I have developed a <strong>forum for music reviews and recommendations</strong>.
+        <strong>Music reviews</strong> have title, content, author & date and optionally - recommended status & comments.
+        <strong>Comments</strong> have content, author and date and refer to a specific music review.
+</p>
+    <strong>Users:</strong>
+    <ul>
+        <li>
+            <strong>Anonymous visitors</strong> (users without registration & not logged-in users) can:
+            <ul>
+                <li>read all reviews & comments;</li>
+                <li>search, filter and sort content in reviews & comments;</li>
+                <li>register in the forum, login & logout;</li>
+                <li>
+                    Registered users should have a mandatory full name, email (username) & password. The email (username) should be unique.
+                    The password requirements have been simplified – the password should consist of at least 3 characters.
+                </li>
+            </ul>
+        </li>
+        <li>
+            In addition to the functionality available to anonymous visitors <strong>logged-in users</strong> can:
+            <ul>
+                <li>create new music reviews & comments;</li>
+                <li>edit their own reviews & comments (but not the recommended status on the reviews & the content author);</li>
+                <li>delete their own comments;</li>
+                <li>delete their reviews if the review does not have any comments.</li>
+            </ul>
+        </li>
+        <li>
+            In addition to the above functionality <strong>admins</strong> (users in role “Administrators”) can:
+            <ul>
+                <li>edit all properties of a publication (incl. the author);</li>
+                <li>recommend reviews by modifying the recommended status of a publication;</li>
+                <li>delete all publications.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <strong>Views:</strong>
+    <ul>
+        <li>The <strong>Home page</strong>  shows the latest 5 music reviews (title, date, author & a short content limited to the first 1500 words of the review content).</li>
+        <li>The <strong>sidebar</strong> provides links to the latest 5 reviews in several <strong>categories</strong>: recommended reviews, from our editors (users in role “Editors”), most commented and recently commented.</li>
+        <li>Implemented a <strong>search box</strong> for filtering content (searching in title, content & author) and <strong>pagination</strong> (5 music reviews per page).</li>
+        <li>The <strong>Details view</strong> shows the full content of the selected publication (title, author, date & content) with a respective hyperlink to <strong>List of all Reviews/ Comments</strong>. A hyperlink to <strong>edit</strong> the publication is visible only to admin users and owners. A hyperlink to <strong>delete</strong> the publication is visible to admin users and if the review does not have any comments – to owners. The sidebar provides <strong>previous / next links</strong>  to similar publications (reviews or comments) sorted by date. The <strong>review sidebar</strong> shows the number of comments on the review & all comments in concise form (comment author, date, short comment text limited to 150 words) with hyperlinks to the full comment text. The <strong>comment sidebar</strong>  shows a summary of the commented music review with a hyperlink to the full content.</li>
+        <li>The <strong>All Reviews/ All Comments</strong> view shows a table holding all respective publications (title, content, date, author, comments counts and actions). All users (incl. anonymous users) can see the <strong>details</strong> link. Owners & admins can see the <strong>edit</strong> link. Owners (with permissions to delete) & admins can see the <strong>delete</strong> link. Admin users can see the recommended status of the reviews. A filtering <strong>search box, pagination & sorting on columns</strong> are implemented.</li>
+        <li>The <strong>Create</strong> view allows logged-in users to create a new music review after providing title & content. The current date & user identity are provided by the controller.</li>
+        <li>The <strong>Edit</strong> view allows logged-in users (owners & admins) to edit the publication title, content & date. Only admins can modify the publication author & the recommended status of a review.  A <strong> date-time picker calendar</strong> facilitates the editing of date/time.</li>
+        <li>The <strong>Delete</strong> view provides all the details of the selected publication & a delete button. The view is accessible only by admins & owners with permissions to delete. Admins should be able to see all corresponding comments to the review and be able to delete individual comments or the entire review with all its comments.</li>
+        <li><strong>My Texts</strong> panel provides links to publications belonging to the current logged-in user.</li>
+        <li>The <strong>Admin</strong> panel provides quick view of the <strong>recommended publications</strong> and links to viewing/ editing/ deleting all reviews & comments.</li>
+        <li><strong>Notifications</strong> provide feedback on users' actions.</li>
+    </ul>
+</div>
+
+<div>
+    <h3 class="comment-title">TODO:</h3>
+    <ul>
+        <li>Create / edit comments from the web app (currently comments can only be created / edited directly in the database).</li>
+        <li>Add tags & categories to publications.</li>
+        <li>A better Admin panel.</li>
+    </ul>
+</div>
 
 <h3>Resources</h3>
 <ul>

@@ -373,6 +373,7 @@
     <Content Include="Views\My\Index.cshtml" />
     <Content Include="Views\My\Posts.cshtml" />
     <Content Include="Views\My\Comments.cshtml" />
+    <Content Include="Views\Home\Steps.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,107 @@
+﻿@{
+    ViewBag.Title = "About";
+}
+<h2 class="view-header">@ViewBag.Title.</h2>
+<div>
+    I am developing this project for my
+    <a href="https://softuni.bg/trainings/1390/software-technologies-june-2016">Software Technologies - June 2016</a>
+    course at the Software University.
+</div> 
+
+<h3 class="comment-title">@ViewBag.Message</h3>
+<div>
+    <p>Design and implement a simple Web-based application, e.g. blog / forum.</p>
+    <p><strong>Technology:</strong> C# + ASP.NET MVC + Entity Framework + SQL Server + HTML + CSS.</p>
+</div>
+<strong >Mandatory functionality:</strong>
+<ul>
+    <li>User registration, login & logout;</li>
+    <li>View some content (e.g. blog articles/ publications);</li>
+    <li>Create new content (e.g. post new blog article/ publication);</li>
+    <li>Use at least 2 tables (collections) with a relationship, e.g. users & blog posts;</li>
+    <li>Use a database or a cloud-based backend;</li>
+</ul>   
+    
+<strong >Optional functionality:</strong>
+<ul>
+    <li>Paging;</li>
+    <li>Searching functionality;</li>
+    <li>Comments to publications;</li>
+    <li>Sidebar holding lists of publications;</li>
+    <li>Tags/ Categories for publications;</li>
+    <li>Admin panel;</li>
+</ul>
+   
+<strong >Requirements to Individual Projects:</strong>
+<ul>
+    <li>At least 4 pages (views) & 2 database tables;</li>
+    <li>User registration, login, view content, create content;</li>
+</ul>
+
+
+<h3 class="comment-title">Steps completed so far:</h3>
+<ul>
+    <li>Created an ASP.NET MVC Web application</li>
+    <li>Simplified the user registration and login</li>
+    <li>Added a mandatory full name property for the users</li>
+    <li>Created a new Post class for the forum posts</li>
+    <li>Scaffolded CRUD oprations for the posts</li>
+    <li>Enabled authomatic migrations of the database and added some seed to populate the db</li>
+    <li>Implemented the listing of posts on the home page & references to post details</li>
+    <li>Modified the Posts index & details views and the corresponding controller actions</li>
+    <li>Added author data to Posts index & details views</li>
+    <li>Modified the create-post functionality: current date & time => post creation date, current user => post author</li>
+    <li>Modified the edit-post funcitonality to allow date modifications and swapping of users (from a dropdown list of registered users, sorted)</li>
+    <li>Allowed html input in new & edited posts</li>
+    <li>Added date/time picker popup calendar in post-edit view (working as expecting only for Firefox)</li>
+    <li>Solved the date/time picker 'invalid date' error msgs in Chrome & Opera </li>
+    <li>Modified visibility of forbidden links: restricted visibility of create-links to authenticated users only</li>
+    <li>Modified visibility of forbidden links: restricted visibility of delete-links in all views to admins only</li>
+    <li>Modified visibility of forbidden links: restricted visibility of edit-links in all views to admins and post owners</li>
+    <li>Modified the edit-post funcitonality: only admins can edit all properties in a post, post owners can only edit the title, body and date of a post, but cannot transfer ownership of the post to another user, e.g. cannot modify the post author.</li>
+    <li>Updated the layout of the home page & sidebar</li>
+    <li>Added a new view holding the current user's posts</li>
+    <li>Added bootstrap notifications</li>
+    <li>Added a new Comment class and scaffolded CRUD operations</li>
+    <li>Updated the layout of the post-details view</li>
+    <li>Added comments to My Texts view</li>
+    <li>Updated the styling of all views</li>
+    <li>Updated the content and visibility of forbidden links on My Texts</li>
+    <li>Updated the content and visibility of forbidden links on Comments view</li>
+    <li>Updated the content and layout of Comment-details view</li>
+    <li>Updated the layout of the home page once again</li>
+    <li>Restricted deletion of comments to admins only</li>
+    <li>Modified the create-comment & edit-comment functionality: guest users cannot create or edit comments</li>
+    <li>Modified the delete-comment funcitonality: only admins can delete comments
+    <li>Modified the edit-comment funcitonality: only admins and [TODO commment owners] can edit comments
+    <li>Added comment stats, details & actions to post-delete views</li>
+    <li>Added comments count in views</li>
+    <li>Updated the notification messages</li>
+    <li>Allowed post owners to delete comments & posts without comments, posts with comments can be deleted by admins only</li>
+    <li>Reworked the forbidden / allowed links</li>
+    <li>Started the admin panel</li>
+    <li>Updated the home page sidebar with posts from the editors, most commented & recently commented posts.</li>
+    <li>Added previous/ next links on posts-details & comments-details views</li>
+    <li>Added a new post property IsRecommended: edited by admin and used to show recommended posts on the home page</li>
+    <li>Modified the admin views</li>
+    <li>Added sorting functionality with column sorting links for posts and comments</li>
+    <li>Added search box in home page, posts & comments</li>
+    <li>Added paging links on home page, posts & comments</li>
+    <li>Updated views for My texts & Admin panels</li>
+    <li>Updated links</li>
+    <li>Modified the search box</li>
+</ul>
+
+<h3 class="comment-title">TODO:</h3>
+<ul>
+    <li>Create/ edit comments from the web app</li>
+    <li>Tags/ categories to publications</li>
+    <li>Admin panel</li>
+</ul>
+
+<h3>Resources</h3>
+<ul>
+    <li>SoftUni, <a href="https://softuni.bg/trainings/1390/software-technologies-june-2016">Software Technologies - June 2016</a></li>
+    <li>Svetlin Nakov, <a href="http://www.nakov.com/blog/2015/05/28/free-asp-net-mvc-hands-on-lab/">ASP.NET MVC Practical Hands-On Lab Tutorial</a></li>
+    <li>Tom Dykstra, <a href="http://www.asp.net/mvc/overview/getting-started/getting-started-with-ef-using-mvc/sorting-filtering-and-paging-with-the-entity-framework-in-an-asp-net-mvc-application">Sorting, Filtering, and Paging with the Entity Framework in an ASP.NET MVC Application</a></li>
+</ul>
