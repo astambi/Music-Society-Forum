@@ -14,8 +14,9 @@ namespace Music_Society_Forum.Controllers
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             var posts = db.Posts
-                        .Include(p => p.Author);            
+                        .Include(p => p.Author);
             ViewBag.RecentPosts = posts
+                        .OrderByDescending(p => p.Date)
                         .Take(5)
                         .ToList();
             ViewBag.RecentlyCommentedPosts = db.Comments
@@ -70,7 +71,7 @@ namespace Music_Society_Forum.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Project Requirements";
+            ViewBag.Message = "Project Scope";
             return View();
         }        
     }

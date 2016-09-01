@@ -95,7 +95,7 @@
                 @: | @Html.ActionLink("Edit", "../Posts/Edit", new { id = post.Id })
                 if (post.Comments.Count == 0)
                 {
-                    @: | @Html.ActionLink("Delete", "..Posts/Delete", new { id = post.Id })
+                    @: | @Html.ActionLink("Delete", "../Posts/Delete", new { id = post.Id })
                 }
             }
         </td>

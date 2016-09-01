@@ -213,7 +213,9 @@ namespace Music_Society_Forum.Controllers
             {
                 db.Entry(comment).State = EntityState.Modified;
                 db.SaveChanges();
-                this.AddNotification("Modified comment", NotificationType.SUCCESS);                
+                this.AddNotification("Modified comment", NotificationType.SUCCESS);
+                if (isCommentOwner(comment))
+                    return RedirectToAction("Comments", "My");
                 return RedirectToAction("Index");
             }
             else

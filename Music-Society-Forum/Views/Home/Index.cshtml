@@ -54,7 +54,7 @@
         @* Search *@
         @using (Html.BeginForm("Index", "Home", FormMethod.Get))
         {
-            <p class="search">
+            <p class="search search-home">
                 @Html.TextBox("searchString", (string)ViewBag.CurrentFilter)
                 <input type="submit" value="Search" />
             </p>

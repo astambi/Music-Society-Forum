@@ -156,7 +156,7 @@ namespace Music_Society_Forum.Controllers
             if (!isAdmin() && !isPostOwner(post))
             {
                 this.AddNotification("The article was created by another user", NotificationType.INFO);
-                return RedirectToAction("My");
+                return RedirectToAction("Index");
             }
             var authors = new List<ApplicationUser>() { post.Author };
             if (isAdmin())
@@ -184,9 +184,7 @@ namespace Music_Society_Forum.Controllers
                 db.SaveChanges();
                 this.AddNotification("Modified article", NotificationType.SUCCESS);
                 if (isPostOwner(post))
-                    return RedirectToAction("My");
-                if (isAdmin())
-                    return RedirectToAction("Index", "Admin");
+                    return RedirectToAction("Posts", "My");                
                 return RedirectToAction("Index");
             }
             return View(post);
@@ -240,7 +238,7 @@ namespace Music_Society_Forum.Controllers
             Post post = db.Posts.Find(id);
             db.Posts.Remove(post);
             db.SaveChanges();
-            this.AddNotification("Deleted article", NotificationType.SUCCESS);            
+            this.AddNotification("Deleted article", NotificationType.SUCCESS);
             return RedirectToAction("Index");
         }
 
