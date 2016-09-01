@@ -14,7 +14,8 @@ namespace Music_Society_Forum.Controllers
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             var posts = db.Posts
-                        .Include(p => p.Author);
+                        .Include(p => p.Author)
+                        .Include(p => p.Category);
             ViewBag.RecentPosts = posts
                         .OrderByDescending(p => p.Date)
                         .Take(5)
@@ -42,6 +43,9 @@ namespace Music_Society_Forum.Controllers
                         .Where(p => p.IsRecommended)
                         .OrderByDescending(p => p.Date)
                         .Take(5).ToList();
+            ViewBag.Categories = db.Categories
+                        .Take(5)
+                        .ToList(); // improve select top 5 categories
 
             ViewBag.CurrentSort = sortOrder;    // keep the sort order the same while paging
 
@@ -57,7 +61,8 @@ namespace Music_Society_Forum.Controllers
             {
                 posts = posts.Where(p => p.Title.Contains(searchString) ||
                                          p.Body.Contains(searchString) ||
-                                         p.Author.FullName.Contains(searchString));
+                                         p.Author.FullName.Contains(searchString) ||
+                                         p.Category.Name.Contains(searchString));
             }
             // Sorting
             posts = posts.OrderByDescending(p => p.Date);

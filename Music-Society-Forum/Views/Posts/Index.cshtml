@@ -28,6 +28,7 @@
 <table class="table">
     <tr>
         @* Column Sorting Links & Paging Links *@
+        <th>@Html.ActionLink("Category", "Index", new { sortOrder = ViewBag.CategorySortParam, currentFilter = ViewBag.CurrentFilter })</th>
         <th>@Html.ActionLink("Title", "Index", new { sortOrder = ViewBag.TitleSortParam, currentFilter = ViewBag.CurrentFilter })</th>
         <th>Content</th>
         <th>@Html.ActionLink("Date", "Index", new { sortOrder = ViewBag.DateSortParam, currentFilter = ViewBag.CurrentFilter })</th>
@@ -43,6 +44,12 @@
 @foreach (var post in Model)
 {
     <tr>
+        <td>
+            @if (post.Category != null)
+            {
+                @post.Category.Name
+            }            
+        </td>
         <td>
             @Html.DisplayFor(modelItem => post.Title)
         </td>

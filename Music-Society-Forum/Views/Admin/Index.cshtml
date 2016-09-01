@@ -1,6 +1,4 @@
-﻿@model IEnumerable<Music_Society_Forum.Models.Post>
-    
-@using Music_Society_Forum.Classes;
+﻿@using Music_Society_Forum.Classes;
 
 @{
     ViewBag.Title = "Admin Home";
@@ -74,18 +72,23 @@
         }        
 
         <section class="col-md-6">
-            @* Recent Reviews *@
-            <h2 class="view-header">All Reviews (@ViewBag.PostsCount)</h2>
+            <h2 class="view-header">Reviews (@ViewBag.PostsCount)</h2>
             <p>
                 @Html.ActionLink("List of Reviews", "../Posts")
             </p>    
         </section>
             
         <section class="col-md-6">
-            @* Recent Comments *@
-            <h2 class="view-header">All Comments (@ViewBag.CommentsCount)</h2>
+            <h2 class="view-header">Comments (@ViewBag.CommentsCount)</h2>
             <p>
                 @Html.ActionLink("List of Comments", "../Comments")
+            </p>
+        </section>
+
+        <section class="col-md-6">
+            <h2 class="view-header">Categories (@ViewBag.CategoriesCount)</h2>
+            <p>
+                @Html.ActionLink("List of Categories", "../Categories")
             </p>
         </section>
     </article> 

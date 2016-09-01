@@ -22,6 +22,12 @@ namespace Music_Society_Forum.Controllers
         {
             switch (sortOrder)
             {
+                case "category_desc":
+                    posts = posts.OrderByDescending(p => p.Category.Name);
+                    break;
+                case "category_asc":
+                    posts = posts.OrderBy(p => p.Category.Name);
+                    break;
                 case "title_desc":
                     posts = posts.OrderByDescending(p => p.Title);
                     break;

@@ -16,20 +16,15 @@ namespace Music_Society_Forum.Controllers
         // GET: Admin
         public ActionResult Index()
         {
-            var newPosts = db.Posts
-                            .Include(p => p.Author)
-                            .OrderByDescending(p => p.Date)
-                            .Take(5)
-                            .ToList();
             ViewBag.RecommendedPosts = db.Posts
                             .Include(c => c.Author)
                             .Where(p => p.IsRecommended)
                             .OrderByDescending(c => c.Date)
                             .ToList();
             ViewBag.PostsCount = db.Posts.Count();
-            ViewBag.CommentsCount = db.Comments.Count();           
-            
-            return View(newPosts);
+            ViewBag.CommentsCount = db.Comments.Count();
+            ViewBag.CategoriesCount = db.Categories.Count();               
+            return View();
         }        
 
         // GET: Admin/Edit/5
@@ -60,13 +55,15 @@ namespace Music_Society_Forum.Controllers
             }            
             ViewBag.Authors = authors;
             ViewBag.Owner = post.Author;
+            ViewBag.Categories = db.Categories.ToList();
+            ViewBag.PostCategory = post.Category;
             return View(post);
         }
 
         // POST: Posts/Edit/5        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id, Title, Body, Date, Author_Id, IsRecommended")] Post post)
+        public ActionResult Edit([Bind(Include = "Id, Title, Body, Date, Author_Id, Category_Id, IsRecommended")] Post post)
         {
             if (ModelState.IsValid)
             {

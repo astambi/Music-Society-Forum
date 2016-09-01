@@ -31,6 +31,7 @@ namespace Music_Society_Forum.Controllers
         {            
             var posts = db.Posts
                         .Include(p => p.Author)
+                        .Include(p => p.Category)
                         .Include(p => p.Comments);
 
             ViewBag.IsAdmin = isAdmin();
@@ -41,6 +42,7 @@ namespace Music_Society_Forum.Controllers
             ViewBag.DateSortParam = sortOrder == "date_asc" ? "date_desc" : "date_asc";
             ViewBag.AuthorSortParam = sortOrder == "author_asc" ? "author_desc" : "author_asc";
             ViewBag.CommentsSortParam = sortOrder == "comments_asc" ? "comments_desc" : "comments_asc";
+            ViewBag.CategorySortParam = sortOrder == "category_asc" ? "category_desc" : "category_asc";
 
             // Paging Links
             if (searchString != null) 
@@ -54,7 +56,8 @@ namespace Music_Society_Forum.Controllers
             {
                 posts = posts.Where(p => p.Title.Contains(searchString) || 
                                          p.Body.Contains(searchString) ||
-                                         p.Author.FullName.Contains(searchString));
+                                         p.Author.FullName.Contains(searchString) ||
+                                         p.Category.Name.Contains(searchString));
             }
 
             // Sorting 
@@ -93,6 +96,11 @@ namespace Music_Society_Forum.Controllers
                             .Where(c => c.Post.Id == id)
                             .OrderByDescending(c => c.Date)
                             .ToList();
+            ViewBag.Category = db.Posts
+                            .Include(p => p.Category)
+                            .Where(p => p.Id == id)
+                            .Select(p => p.Category)
+                            .FirstOrDefault();
             ViewBag.Next = db.Posts
                             .Where(p => p.Date > post.Date)
                             .OrderBy(p => p.Date)
@@ -101,9 +109,6 @@ namespace Music_Society_Forum.Controllers
                             .Where(p => p.Date < post.Date)
                             .OrderByDescending(p => p.Date)
                             .FirstOrDefault();
-            //ViewBag.Comments = post.Comments
-            //                .OrderByDescending(p => p.Date)
-            //                .ToList();
             return View(post);
         }
              
@@ -168,6 +173,8 @@ namespace Music_Society_Forum.Controllers
             }  
             ViewBag.Authors = authors;
             ViewBag.Owner = post.Author;
+            ViewBag.Categories = db.Categories.ToList();
+            ViewBag.PostCategory = post.Category;
             return View(post);
         }
 
@@ -177,7 +184,7 @@ namespace Music_Society_Forum.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Body,Date, Author_Id")] Post post)
+        public ActionResult Edit([Bind(Include = "Id,Title,Body,Date, Author_Id, Category_Id")] Post post)
         {
             if (ModelState.IsValid)
             {

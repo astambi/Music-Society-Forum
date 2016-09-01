@@ -40,5 +40,10 @@ namespace Music_Society_Forum.Models
         public virtual ICollection<Comment> Comments { get; set; }
 
         public bool IsRecommended { get; set; }
+
+        public int? Category_Id { get; set; }
+
+        [ForeignKey("Category_Id")]
+        public Category Category { get; set; }
     }
 }

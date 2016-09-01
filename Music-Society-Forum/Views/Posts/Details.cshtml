@@ -13,7 +13,12 @@
             @Html.DisplayFor(model => model.Title)
         </h2>
         <div class="post-subtitle">
-            Posted on <i>@Model.Date</i>
+            Posted 
+            @if (ViewBag.Category != null)
+            {
+                @:in <i>@ViewBag.Category.Name.ToUpper()</i> 
+            }
+            on <i>@Model.Date</i>
             @if (Model.Author != null)
             {
                 @:by
