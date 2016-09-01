@@ -56,6 +56,15 @@
             @Html.LabelFor(model => model.Author, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <select class="form-control" name="Author_Id">
+                    @* Post Owner first in list *@
+                    <option value="@ViewBag.Owner.Id">
+                        @if (ViewBag.Owner.FullName != null)
+                        {
+                            @ViewBag.Owner.FullName @:(@ViewBag.Owner.UserName)
+                            }
+                        else
+                        { @ViewBag.Owner.UserName  }
+                    </option>  
                     @foreach (var author in ViewBag.Authors)
                     {
                         <option value="@author.Id">

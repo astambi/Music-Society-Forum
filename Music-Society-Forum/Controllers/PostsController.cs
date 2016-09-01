@@ -165,8 +165,9 @@ namespace Music_Society_Forum.Controllers
                         .OrderBy(u => u.FullName)
                         .ThenBy(u => u.UserName)
                         .ToList();
-            }            
-            ViewBag.Authors = authors;            
+            }  
+            ViewBag.Authors = authors;
+            ViewBag.Owner = post.Author;
             return View(post);
         }
 

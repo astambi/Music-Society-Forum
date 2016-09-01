@@ -59,6 +59,7 @@ namespace Music_Society_Forum.Controllers
                 authors.AddRange(allUsers);
             }            
             ViewBag.Authors = authors;
+            ViewBag.Owner = post.Author;
             return View(post);
         }
 
