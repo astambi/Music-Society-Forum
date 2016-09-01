@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Music_Society_Forum.Models.Post>
+    
+@using Music_Society_Forum.Classes;
+
+@{
+    ViewBag.Title = "My Home";
+}
+
+<section class="row"> 
+    <article class="col-md-12">             
+
+        <section class="col-md-6">
+            @* Reviews *@
+            <h2 class="view-header">My Reviews (@ViewBag.PostsCount)</h2>
+            <p>
+                @Html.ActionLink("List of Reviews", "Posts")
+            </p>    
+        </section>
+            
+        <section class="col-md-6">
+            @* Comments *@
+            <h2 class="view-header">My Comments (@ViewBag.CommentsCount)</h2>
+            <p>
+                @Html.ActionLink("List of Comments", "Comments")
+            </p>
+        </section>
+    </article> 
+</section>

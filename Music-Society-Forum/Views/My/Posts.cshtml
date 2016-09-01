@@ -7,17 +7,17 @@
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
-    ViewBag.Title = "Reviews";
+    ViewBag.Title = "My Reviews";
 }
 
-<h2 class="view-header">@ViewBag.Title </h2>
+<h2 class="view-header">@ViewBag.Title (@Model.Count())</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create", "Posts")
 </p>
 
 @* Search *@
-@using (Html.BeginForm("Index", "Posts", FormMethod.Get))
+@using (Html.BeginForm("Posts", "My", FormMethod.Get))
 {
     <p class="search">
         @Html.TextBox("searchString", (string)ViewBag.CurrentFilter)
@@ -28,11 +28,11 @@
 <table class="table">
     <tr>
         @* Column Sorting Links & Paging Links *@
-        <th>@Html.ActionLink("Title", "Index", new { sortOrder = ViewBag.TitleSortParam, currentFilter = ViewBag.CurrentFilter })</th>
+        <th>@Html.ActionLink("Title", "Posts", new { sortOrder = ViewBag.TitleSortParam, currentFilter = ViewBag.CurrentFilter })</th>
         <th>Content</th>
-        <th>@Html.ActionLink("Date", "Index", new { sortOrder = ViewBag.DateSortParam, currentFilter = ViewBag.CurrentFilter })</th>
-        <th>@Html.ActionLink("Author", "Index", new { sortOrder = ViewBag.AuthorSortParam, currentFilter = ViewBag.CurrentFilter })</th>
-        <th>@Html.ActionLink("Comments", "Index", new { sortOrder = ViewBag.CommentsSortParam, currentFilter = ViewBag.CurrentFilter })</th>
+        <th>@Html.ActionLink("Date", "Posts", new { sortOrder = ViewBag.DateSortParam, currentFilter = ViewBag.CurrentFilter })</th>
+        <th>@Html.ActionLink("Author", "Posts", new { sortOrder = ViewBag.AuthorSortParam, currentFilter = ViewBag.CurrentFilter })</th>
+        <th>@Html.ActionLink("Comments", "Posts", new { sortOrder = ViewBag.CommentsSortParam, currentFilter = ViewBag.CurrentFilter })</th>
         @if (ViewBag.IsAdmin)
         {
             <th>Recommended</th>
@@ -80,22 +80,22 @@
             </td>
         }        
         <td>
-            @Html.ActionLink("Details", "Details", new { id = post.Id })
+            @Html.ActionLink("Details", "../Posts/Details", new { id = post.Id })
 
             @*  Admins can edit and delete ALL Posts, 
                 post Owners can edit their own posts, and delete posts without comments. *@
             @if (ViewBag.IsAdmin)
             {
                 @: | @Html.ActionLink("Edit", "../Admin/Edit", new { id = post.Id })
-                @: | @Html.ActionLink("Delete", "Delete", new { id = post.Id })
+                @: | @Html.ActionLink("Delete", "../Posts/Delete", new { id = post.Id })
             }
             else if (post.Author_Id != null &&
                      post.Author.UserName == User.Identity.Name)
             {                
-                @: | @Html.ActionLink("Edit", "Edit", new { id = post.Id })
+                @: | @Html.ActionLink("Edit", "../Posts/Edit", new { id = post.Id })
                 if (post.Comments.Count == 0)
                 {
-                    @: | @Html.ActionLink("Delete", "Delete", new { id = post.Id })
+                    @: | @Html.ActionLink("Delete", "..Posts/Delete", new { id = post.Id })
                 }
             }
         </td>
@@ -107,5 +107,5 @@
 <hr />
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-@Html.PagedListPager(Model, page => Url.Action("Index",
+@Html.PagedListPager(Model, page => Url.Action("Posts",
     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

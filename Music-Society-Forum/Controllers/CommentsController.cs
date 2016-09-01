@@ -65,38 +65,7 @@ namespace Music_Society_Forum.Controllers
             int pageNumber = (page ?? 1);
             return View(comments.ToPagedList(pageNumber, pageSize));
         }
-
-        private static IQueryable<Comment> GetSortedComments(string sortOrder, IQueryable<Comment> comments)
-        {
-            switch (sortOrder)
-            {
-                case "title_desc":
-                    comments = comments.OrderByDescending(c => c.Post.Title);
-                    break;
-                case "title_asc":
-                    comments = comments.OrderBy(c => c.Post.Title);
-                    break;
-                case "date_asc":
-                    comments = comments.OrderBy(c => c.Date);
-                    break;
-                case "date_desc":
-                    comments = comments.OrderByDescending(c => c.Date);
-                    break;
-                case "author_desc":
-                    comments = comments.OrderByDescending(c => c.Author.FullName);
-                    break;
-                case "author_asc":
-                    comments = comments.OrderBy(c => c.Author.FullName);
-                    break;
-                default:
-                    comments = comments.OrderByDescending(c => c.Date);
-                    break;
-            }
-
-            return comments;
-        }
-
-        // GET: Comments/Details/5
+                
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -182,7 +151,7 @@ namespace Music_Society_Forum.Controllers
                 db.Comments.Add(comment);
                 db.SaveChanges();
                 this.AddNotification("Created a new comment", NotificationType.SUCCESS);
-                return RedirectToAction("Index");
+                return RedirectToAction("Comments", "My");
             }
             else
             {
@@ -211,7 +180,7 @@ namespace Music_Society_Forum.Controllers
             if (!isAdmin() && !isCommentOwner(comment))
             {
                 this.AddNotification("The comment was created by another user", NotificationType.INFO);
-                return RedirectToAction("My", "Posts");
+                return RedirectToAction("Index");
             }
             var authors = db.Users
                         .OrderBy(u => u.FullName)
@@ -244,9 +213,7 @@ namespace Music_Society_Forum.Controllers
             {
                 db.Entry(comment).State = EntityState.Modified;
                 db.SaveChanges();
-                this.AddNotification("Modified comment", NotificationType.SUCCESS);
-                if (isCommentOwner(comment))
-                    return RedirectToAction("My", "Posts");
+                this.AddNotification("Modified comment", NotificationType.SUCCESS);                
                 return RedirectToAction("Index");
             }
             else
@@ -276,7 +243,7 @@ namespace Music_Society_Forum.Controllers
             if (!isAdmin() && !isCommentOwner(comment))
             {
                 this.AddNotification("The comment was created by another user", NotificationType.INFO);
-                return RedirectToAction("My", "Posts");
+                return RedirectToAction("Index");
             }
             ViewBag.CommentAuthor = db.Comments
                                     .Where(c => c.Id == id)

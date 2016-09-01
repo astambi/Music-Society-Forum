@@ -66,44 +66,7 @@ namespace Music_Society_Forum.Controllers
             int pageNumber = (page ?? 1);
             return View(posts.ToPagedList(pageNumber, pageSize));
         }
-
-        private static IQueryable<Post> GetSortedPosts(string sortOrder, IQueryable<Post> posts)
-        {
-            switch (sortOrder)
-            {
-                case "title_desc":
-                    posts = posts.OrderByDescending(p => p.Title);
-                    break;
-                case "title_asc":
-                    posts = posts.OrderBy(p => p.Title);
-                    break;
-                case "date_asc":
-                    posts = posts.OrderBy(p => p.Date);
-                    break;
-                case "date_desc":
-                    posts = posts.OrderByDescending(p => p.Date);
-                    break;
-                case "author_desc":
-                    posts = posts.OrderByDescending(p => p.Author.FullName);
-                    break;
-                case "author_asc":
-                    posts = posts.OrderBy(p => p.Author.FullName);
-                    break;
-                case "comments_desc":
-                    posts = posts.OrderByDescending(p => p.Comments.Count());
-                    break;
-                case "comments_asc":
-                    posts = posts.OrderBy(p => p.Comments.Count());
-                    break;
-                default:
-                    posts = posts.OrderByDescending(p => p.Date);
-                    break;
-            }
-
-            return posts;
-        }
-
-        // GET: Posts/Details/5
+        
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -143,23 +106,7 @@ namespace Music_Society_Forum.Controllers
             //                .ToList();
             return View(post);
         }
-
-        // GET: Posts/My
-        [Authorize]
-        public ActionResult My()
-        {
-            var posts = db.Posts
-                        .Where(p => p.Author != null && p.Author.UserName == User.Identity.Name)
-                        .OrderByDescending(p => p.Date)
-                        .ToList();
-            ViewBag.IsAdmin = isAdmin();
-            ViewBag.Comments = db.Comments
-                        .Include(c => c.Post)
-                        .Where(c => c.Author != null && c.Author.UserName == User.Identity.Name)
-                        .OrderByDescending(c => c.Date)
-                        .ToList(); 
-            return View(posts);
-        }
+             
 
         // GET: Posts/Create
         [Authorize]
@@ -184,7 +131,7 @@ namespace Music_Society_Forum.Controllers
                 db.Posts.Add(post);
                 db.SaveChanges();
                 this.AddNotification("Created a new article", NotificationType.SUCCESS);
-                return RedirectToAction("My");
+                return RedirectToAction("Posts", "My");
             }
             return View(post);
         }
@@ -265,12 +212,12 @@ namespace Music_Society_Forum.Controllers
             if (!isAdmin() && !isPostOwner(post))
             {
                 this.AddNotification("The article was created by another user", NotificationType.INFO);
-                return RedirectToAction("My");
+                return RedirectToAction("Index");
             }
             if (!isAdmin() && isPostOwner(post) && post.Comments.Count > 0)
             {
                 this.AddNotification("You are not allowed to delete an article with comments", NotificationType.INFO);
-                return RedirectToAction("My");
+                return RedirectToAction("Index");
             }
             ViewBag.PostAuthor = db.Posts
                             .Where(p => p.Id == id)
@@ -293,9 +240,7 @@ namespace Music_Society_Forum.Controllers
             Post post = db.Posts.Find(id);
             db.Posts.Remove(post);
             db.SaveChanges();
-            this.AddNotification("Deleted article", NotificationType.SUCCESS);
-            if (isAdmin())
-                return RedirectToAction("Index", "Admin");
+            this.AddNotification("Deleted article", NotificationType.SUCCESS);            
             return RedirectToAction("Index");
         }
 

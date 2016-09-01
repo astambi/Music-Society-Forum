@@ -7,17 +7,17 @@
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
-    ViewBag.Title = "Comments";
+    ViewBag.Title = "My Comments";
 }
 
-<h2 class="view-header">@ViewBag.Title </h2>
+<h2 class="view-header">@ViewBag.Title (@Model.Count())</h2>
 
 @*<p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create", "Comments")
 </p>*@
 
 @* Search *@
-@using (Html.BeginForm("Index", "Comments", FormMethod.Get))
+@using (Html.BeginForm("Comments", "My", FormMethod.Get))
 {
     <p class="search">
         @Html.TextBox("searchString", (string)ViewBag.CurrentFilter)        
@@ -28,10 +28,10 @@
 <table class="table">
     <tr>
         @* Column Sorting Links *@
-        <th>@Html.ActionLink("On", "Index", new { sortOrder = ViewBag.TitleSortParam, currentFilter = ViewBag.CurrentFilter })</th>
+        <th>@Html.ActionLink("On", "Comments", new { sortOrder = ViewBag.TitleSortParam, currentFilter = ViewBag.CurrentFilter })</th>
         <th>Comment</th>
-        <th>@Html.ActionLink("Date", "Index", new { sortOrder = ViewBag.DateSortParam, currentFilter = ViewBag.CurrentFilter })</th>
-        <th>@Html.ActionLink("Author", "Index", new { sortOrder = ViewBag.AuthorSortParam, currentFilter = ViewBag.CurrentFilter })</th>
+        <th>@Html.ActionLink("Date", "Comments", new { sortOrder = ViewBag.DateSortParam, currentFilter = ViewBag.CurrentFilter })</th>
+        <th>@Html.ActionLink("Author", "Comments", new { sortOrder = ViewBag.AuthorSortParam, currentFilter = ViewBag.CurrentFilter })</th>
         <th>Actions</th>
 
         @*<th>On</th>
@@ -71,13 +71,13 @@
             }
         </td>        
         <td>
-            @Html.ActionLink("Details", "Details", new { id=comment.Id })
+            @Html.ActionLink("Details", "../Comments/Details", new { id=comment.Id })
             @if (ViewBag.IsAdmin || 
                 (comment.Author_Id != null &&
                  comment.Author.UserName == User.Identity.Name))
             {
-                @: | @Html.ActionLink("Edit", "Edit", new { id = comment.Id })
-                @: | @Html.ActionLink("Delete", "Delete", new { id = comment.Id })
+                @: | @Html.ActionLink("Edit", "../Comments/Edit", new { id = comment.Id })
+                @: | @Html.ActionLink("Delete", "../Comments/Delete", new { id = comment.Id })
             }
             @*owners cannot delete comments*@
             @*else if (comment.Author_Id != null &&
@@ -95,5 +95,5 @@
 <br />
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-@Html.PagedListPager(Model, page => Url.Action("Index",
+@Html.PagedListPager(Model, page => Url.Action("Comments",
     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

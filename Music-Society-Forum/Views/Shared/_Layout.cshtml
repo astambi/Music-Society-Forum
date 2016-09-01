@@ -34,7 +34,7 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("New Review", "Create", "Posts")</li>
-                        <li>@Html.ActionLink("My Texts", "My", "Posts")</li>
+                        <li>@Html.ActionLink("My Texts", "Index", "My")</li>
                     }
 
                     @if (User.Identity.IsAuthenticated && User.IsInRole("Administrators"))
