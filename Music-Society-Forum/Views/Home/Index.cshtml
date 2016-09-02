@@ -65,20 +65,7 @@
             </p>
         }
         <hr />
-
-        @* Categories *@
-        <h4 class="sidebar-header">Popular Categories</h4>
-        <div class="sidebar-block">
-            @if (ViewBag.Categories.Count > 0)
-            {
-                foreach (var cat in ViewBag.Categories)
-                {
-                    <h5 class="sidebar-post">
-                        @Html.ActionLink((string)@cat.Name, "Details", "Categories", new { id = @cat.Id }, null)
-                    </h5>
-                }
-            }
-        </div> 
+        
 
         @*From Our Editors*@
         <h4 class="sidebar-header">From Our Editors</h4>
@@ -103,6 +90,20 @@
                 {
                     <h5 class="sidebar-post">
                         @Html.ActionLink((string)@post.Title, "Details", "Posts", new { id = @post.Id }, null)
+                    </h5>
+                }
+            }
+        </div> 
+
+        @* Categories *@
+        <h4 class="sidebar-header">Popular Categories</h4>
+        <div class="sidebar-block">
+            @if (ViewBag.Categories.Count > 0)
+            {
+                foreach (var cat in ViewBag.Categories)
+                {
+                    <h5 class="sidebar-post">
+                        @Html.ActionLink((string)@cat.Name, "Details", "Categories", new { id = @cat.Id }, null)
                     </h5>
                 }
             }
