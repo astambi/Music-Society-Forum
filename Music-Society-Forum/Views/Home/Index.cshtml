@@ -24,7 +24,7 @@
                 Posted 
                 @if (post.Category != null)
                 {
-                    @:in <i>@post.Category.Name.ToUpper()</i> 
+                    @:in <span class="category">@post.Category.Name.ToUpper()</span> 
                 }
                 on <i>@post.Date</i>
                 @if (post.Author != null)
@@ -103,7 +103,7 @@
                 foreach (var cat in ViewBag.Categories)
                 {
                     <h5 class="sidebar-post">
-                        @Html.ActionLink((string)@cat.Name, "Details", "Categories", new { id = @cat.Id }, null)
+                        @Html.ActionLink(((string)@cat.Name).ToUpper(), "Details", "Categories", new { id = @cat.Id }, null)
                     </h5>
                 }
             }

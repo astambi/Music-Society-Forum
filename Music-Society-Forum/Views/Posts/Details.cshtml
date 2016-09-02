@@ -16,7 +16,7 @@
             Posted 
             @if (ViewBag.Category != null)
             {
-                @:in <i>@ViewBag.Category.Name.ToUpper()</i> 
+                @:in <span class="category">@ViewBag.Category.Name.ToUpper()</span> 
             }
             on <i>@Model.Date</i>
             @if (Model.Author != null)

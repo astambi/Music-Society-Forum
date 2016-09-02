@@ -139,3 +139,11 @@ textarea {
     padding: 10px 15px;
     border-radius: 10px;
 }
+
+.category {
+    border-style: solid; 
+    border-color: cadetblue;
+    border-radius: 15px;
+    padding: 1px 5px;
+    font-style:italic; 
+}

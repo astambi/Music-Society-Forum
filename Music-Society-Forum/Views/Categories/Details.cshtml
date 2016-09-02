@@ -23,8 +23,10 @@
             <ul>
                 @foreach (var post in ViewBag.Posts)
                 {
-                    <li>@post.Date - @post.Title - by @post.Author.FullName (@post.Author.UserName) - 
-                        @Html.ActionLink("Details", "../Posts/Details", new { id = post.Id })
+                    <li>
+                        @post.Date: <strong>@post.Title</strong>
+                        by <i> @post.Author.FullName (@post.Author.UserName)</i> 
+                        @Html.ActionLink("Details", "../Posts/Details", new { id = post.Id })                  
                     </li>
                 }
             </ul>            
