@@ -229,10 +229,6 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\aspnet-Music-Society-Forum-20160821113225.mdf" />
-    <Content Include="App_Data\aspnet-Music-Society-Forum-20160821113225_log.ldf">
-      <DependentUpon>aspnet-Music-Society-Forum-20160821113225.mdf</DependentUpon>
-    </Content>
     <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -387,6 +383,7 @@
     <Content Include="Views\Categories\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
