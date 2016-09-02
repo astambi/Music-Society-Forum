@@ -35,11 +35,14 @@
                             @ViewBag.PostCategory.Name
                         </option>
                     }
-                    @foreach (var cat in ViewBag.Categories)
+                    @if (ViewBag.IsAdmin)
                     {
-                        <option value="@cat.Id">
-                            @cat.Name
-                        </option>
+                        foreach (var cat in ViewBag.Categories)
+                        {
+                            <option value="@cat.Id">
+                                @cat.Name
+                            </option>
+                        }
                     }
                 </select>
                 @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })

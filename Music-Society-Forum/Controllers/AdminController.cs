@@ -57,6 +57,7 @@ namespace Music_Society_Forum.Controllers
             ViewBag.Owner = post.Author;
             ViewBag.Categories = db.Categories.ToList();
             ViewBag.PostCategory = post.Category;
+            ViewBag.IsAdmin = isAdmin();
             return View(post);
         }
 
