@@ -103,7 +103,7 @@
                 foreach (var cat in ViewBag.Categories)
                 {
                     <h5 class="sidebar-post">
-                        @Html.ActionLink(((string)@cat.Name).ToUpper(), "Details", "Categories", new { id = @cat.Id }, null)
+                        @Html.ActionLink((string)@cat.Name, "Details", "Categories", new { id = @cat.Id }, null)
                     </h5>
                 }
             }

@@ -44,7 +44,7 @@
 
     <p>
         I have developed a <strong>forum for music reviews and recommendations</strong>.
-        <strong>Music reviews</strong> have title, content, author & date and optionally - recommended status, comments & category.
+        <strong>Music reviews</strong> have title, content, author & date and optionally - <strong>recommended status</strong>, comments & <strong>category</strong>.
         <strong>Comments</strong> have content, author and date and refer to a specific music review.
 </p>
     <strong>Users:</strong>
@@ -84,7 +84,7 @@
     <ul>
         <li>The <strong>Home page</strong> shows the latest 5 music reviews (title, date, author & a short content limited to the first 1500 words of the review content).</li>
         <li>The <strong>sidebar</strong> provides links to the latest 5 reviews in several <strong>categories</strong>: recommended reviews, from our editors (users in role “Editors”), most commented, recently commented & top categories.</li>
-        <li>Implemented a <strong>search box</strong> for filtering content (searching in title, content & author) and <strong>pagination</strong> (5 music reviews per page).</li>
+        <li>Implemented a <strong>search box</strong> for filtering content (searching in title, content, category & author) and <strong>pagination</strong> (5 music reviews per page).</li>
         <li>The <strong>Details view</strong> shows the full content of the selected publication (title, author, date & content) with a respective hyperlink to <strong>List of all Reviews/ Comments</strong>. A hyperlink to <strong>edit</strong> the publication is visible only to admin users and owners. A hyperlink to <strong>delete</strong> the publication is visible to admin users and if the review does not have any comments – to owners. The sidebar provides <strong>previous / next links</strong>  to similar publications (reviews or comments) sorted by date. The <strong>review sidebar</strong> shows the number of comments on the review & all comments in concise form (comment author, date, short comment text limited to 150 words) with hyperlinks to the full comment text. The <strong>comment sidebar</strong>  shows a summary of the commented music review with a hyperlink to the full content.</li>
         <li>The <strong>All Reviews/ All Comments</strong> view shows a table holding all respective publications (title, content, date, author, comments counts and actions). All users (incl. anonymous users) can see the <strong>details</strong> link. Owners & admins can see the <strong>edit</strong> link. Owners (with permissions to delete) & admins can see the <strong>delete</strong> link. Admin users can see the recommended status of the reviews. A filtering <strong>search box, pagination & sorting on columns</strong> are implemented.</li>
         <li>The <strong>Create</strong> view allows logged-in users to create a new music review after providing title & content. The current date & user identity are provided by the controller.</li>
