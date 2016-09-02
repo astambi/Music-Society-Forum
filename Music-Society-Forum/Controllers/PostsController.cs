@@ -117,6 +117,7 @@ namespace Music_Society_Forum.Controllers
         [Authorize]
         public ActionResult Create()
         {
+            ViewBag.Categories = db.Categories.ToList();
             return View();
         }
 
@@ -126,7 +127,7 @@ namespace Music_Society_Forum.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Body, Author_Id")] Post post)
+        public ActionResult Create([Bind(Include = "Id,Title,Body, Author_Id, Category_Id")] Post post)
         {
             if (ModelState.IsValid)
             {
